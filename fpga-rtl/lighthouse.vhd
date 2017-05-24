@@ -22,18 +22,20 @@ architecture Behavioral of lighthouse is
 	signal rotor: std_logic;
 	signal lighthouse: std_logic;
 	signal start_valid_sync 	: std_logic_vector(31 downto 0);
+	signal sensor_data : std_logic_vector(31 downto 0);
+	signal data_ready : std_logic;
 	
 begin   process(sensor)
 	variable duration: std_logic_vector(31 downto 0);
 	variable stop_valid_sync : std_logic_vector(31 downto 0) := (others => '0');
 	variable sync_gap_duration 	: std_logic_vector(31 downto 0):= (others => '0');
    begin
-		sensor_value(8 downto 0) <= std_logic_vector(to_unsigned(sensorID, 9));
+		sensor_data(8 downto 0) <= std_logic_vector(to_unsigned(sensorID, 9));
 		if rising_edge(sensor) then
 			t_0 <= timer;
 		elsif falling_edge(sensor) then
 			duration := std_logic_vector(unsigned(timer)-unsigned(t_0));
-			data_available <= '0';
+			data_ready <= '0';
 			if(duration < 50+5) then -- this is a sweep
 				t_sweep_duration <= (t_0-t_sweep_start);
 			elsif (duration > (63-5)) and (duration < (94+5)) then -- this is a sync pulse, NOT skipping
@@ -60,11 +62,11 @@ begin   process(sensor)
 					rotor <= '0';
 					data  <= '0';
 				elsif(abs(duration - 73) < 5) then
-					rotor <= '1';
-					data  <= '0';
-				elsif(abs(duration - 83) < 5) then
 					rotor <= '0';
 					data  <= '1';
+				elsif(abs(duration - 83) < 5) then
+					rotor <= '1';
+					data  <= '0';
 				elsif(abs(duration - 94) < 5) then
 					rotor <= '1';
 					data  <= '1';
@@ -72,27 +74,33 @@ begin   process(sensor)
 					rotor <= '0';
 					data  <= '0';
 				elsif(abs(duration - 115) < 5) then
-					rotor <= '1';
-					data  <= '0';
-				elsif(abs(duration - 125) < 5) then
 					rotor <= '0';
 					data  <= '1';
+				elsif(abs(duration - 125) < 5) then
+					rotor <= '1';
+					data  <= '0';
 				elsif(abs(duration - 135) < 5) then
 					rotor <= '1';
 					data  <= '1';
 				end if;
 				
 				if(t_sweep_duration < 8000) and (t_sweep_duration > 300 ) then 
-					sensor_value(12) <= '1'; -- valid sweep
+					sensor_data(12) <= '1'; -- valid sweep
 				else
-					sensor_value(12) <= '0'; -- not valid
+					sensor_data(12) <= '0'; -- not valid
 				end if;
 				
-				sensor_value(9) <= lighthouse;
-				sensor_value(10) <= rotor;
-				sensor_value(11) <= data;
-				sensor_value(31 downto 13) <= t_sweep_duration(18 downto 0);
-				data_available <= '1'; -- we can send the data shortly after a sync
+				sensor_data(9) <= lighthouse;
+				sensor_data(10) <= rotor;
+				sensor_data(11) <= data;
+				sensor_data(31 downto 13) <= t_sweep_duration(18 downto 0);
+				data_ready <= '1'; -- we can send the data shortly after a sync
+			end if;
+			if(data_ready = '1') then
+				sensor_value <= sensor_data;
+				data_available <= '1';
+			elsif (data_ready = '0') then
+				data_available <= '0';
 			end if;
 		end if;
    end process;

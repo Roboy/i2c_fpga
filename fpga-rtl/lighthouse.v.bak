@@ -1,0 +1,5 @@
+module lighthouse (
+	input sensor_signal,
+	input reset_n,
+	output [31:0] sensor_data
+);

@@ -28,13 +28,14 @@ DarkRoom::~DarkRoom(){
 };
 
 void DarkRoom::getSensorValues(){
-    ros::Rate rate(120);
+    ros::Rate rate(500);
     while(getData){
         uint32_t data_available = IORD(h2p_lw_darkroom_addr, 0);
         roboy_communication_middleware::DarkRoom msg;
         for(uint i = 1; i<=14; i++){
             if((data_available>>i)&0x1){
-                msg.sensor_value.push_back(IORD(h2p_lw_darkroom_addr, i));
+                uint32_t data = IORD(h2p_lw_darkroom_addr, i);
+                msg.sensor_value.push_back(data);
             }
         }
         if(!msg.sensor_value.empty())
