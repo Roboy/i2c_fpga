@@ -17,6 +17,30 @@
          type = "int";
       }
    }
+   element I2C_avalon_bridge_0.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "32";
+         type = "String";
+      }
+   }
+   element I2C_avalon_bridge_1
+   {
+      datum _sortIndex
+      {
+         value = "9";
+         type = "int";
+      }
+   }
+   element I2C_avalon_bridge_1.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "0";
+         type = "String";
+      }
+   }
    element clk_0
    {
       datum _sortIndex
@@ -199,14 +223,24 @@
  <interface name="hps_0_h2f_user0_clock" internal="hps_0.h2f_user0_clock" />
  <interface name="hps_0_hps_io" internal="hps_0.hps_io" type="conduit" dir="end" />
  <interface
-   name="i2c_avalon_bridge"
+   name="i2c_avalon_bridge0"
    internal="I2C_avalon_bridge_0.conduit_end"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="i2c_avalon_bridge1"
+   internal="I2C_avalon_bridge_1.conduit_end"
    type="conduit"
    dir="end" />
  <interface name="memory" internal="hps_0.memory" type="conduit" dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
  <module
    name="I2C_avalon_bridge_0"
+   kind="I2C_avalon_bridge"
+   version="1.0"
+   enabled="1" />
+ <module
+   name="I2C_avalon_bridge_1"
    kind="I2C_avalon_bridge"
    version="1.0"
    enabled="1" />
@@ -864,6 +898,15 @@
    start="hps_0.h2f_lw_axi_master"
    end="I2C_avalon_bridge_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0020" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="hps_0.h2f_lw_axi_master"
+   end="I2C_avalon_bridge_1.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
@@ -952,6 +995,11 @@
    kind="clock"
    version="17.0"
    start="clk_0.clk"
+   end="I2C_avalon_bridge_1.clock_sink" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clk_0.clk"
    end="hps_0.f2h_axi_clock" />
  <connection
    kind="clock"
@@ -1002,6 +1050,11 @@
    version="17.0"
    start="clk_0.clk_reset"
    end="I2C_avalon_bridge_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="clk_0.clk_reset"
+   end="I2C_avalon_bridge_1.reset" />
  <connection
    kind="reset"
    version="17.0"

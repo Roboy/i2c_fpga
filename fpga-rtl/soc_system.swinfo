@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SopcSystem>
  <!-- An entire SOPC Builder system -->
- <!-- 2017.05.17.11:24:16 -->
+ <!-- 2017.05.25.23:34:07 -->
  <name>soc_system</name>
  <version>1.0</version>
  <sopcVersion>1.0</sopcVersion>
@@ -20,8 +20,20 @@
   <path>I2C_avalon_bridge_0</path>
  </module>
  <module>
+  <name>I2C_avalon_bridge_1</name>
+  <version>1.0</version>
+  <className>I2C_avalon_bridge</className>
+  <clockConnection>
+   <moduleName>I2C_avalon_bridge_1</moduleName>
+   <localSlaveName>clock_sink</localSlaveName>
+   <systemConnectionName>I2C_avalon_bridge_1.clock_sink</systemConnectionName>
+   <frequency>0</frequency>
+  </clockConnection>
+  <path>I2C_avalon_bridge_1</path>
+ </module>
+ <module>
   <name>clk_0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <className>clock_source</className>
   <clockConnection>
    <moduleName>clk_0</moduleName>
@@ -39,7 +51,7 @@
  </module>
  <module>
   <name>fpga_only_master</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>debug.hostConnection</name>
    <value>type jtag id 110:132</value>
@@ -54,7 +66,7 @@
     <slaveDesc>onchip_memory2_0</slaveDesc>
     <slave>
      <name>s1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -93,7 +105,7 @@
     <slaveDesc>sysid_qsys</slaveDesc>
     <slave>
      <name>control_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
       <value>false</value>
@@ -128,7 +140,7 @@
     <slaveDesc>jtag_uart</slaveDesc>
     <slave>
      <name>avalon_jtag_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -167,7 +179,7 @@
     <slaveDesc>intr_capturer_0</slaveDesc>
     <slave>
      <name>avalon_slave_0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -212,7 +224,7 @@
  </module>
  <module>
   <name>hps_0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>postgeneration.simulation.init_file.param_name</name>
    <value>ABS_RAM_MEM_INIT_FILENAME</value>
@@ -234,7 +246,7 @@
     <slaveDesc>onchip_memory2_0</slaveDesc>
     <slave>
      <name>s1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -269,11 +281,50 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
+    <slave>
+     <name>avalon_slave_0</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave_0</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>0</baseAddress>
+    <basePhysicalAddress>0</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>I2C_avalon_bridge_0</moduleName>
     <slaveDesc>I2C_avalon_bridge_0</slaveDesc>
     <slave>
      <name>avalon_slave_0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -293,9 +344,9 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave_0</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>0</baseAddress>
-    <basePhysicalAddress>0</basePhysicalAddress>
-    <span>16</span>
+    <baseAddress>32</baseAddress>
+    <basePhysicalAddress>32</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -312,7 +363,7 @@
     <slaveDesc>sysid_qsys</slaveDesc>
     <slave>
      <name>control_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
       <value>false</value>
@@ -347,7 +398,7 @@
     <slaveDesc>jtag_uart</slaveDesc>
     <slave>
      <name>avalon_jtag_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -404,7 +455,7 @@
  </module>
  <module>
   <name>hps_0_fpga_interfaces</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>postgeneration.simulation.init_file.param_name</name>
    <value>ABS_RAM_MEM_INIT_FILENAME</value>
@@ -418,7 +469,7 @@
  </module>
  <module>
   <name>hps_0_hps_io</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>postgeneration.simulation.init_file.param_name</name>
    <value>ABS_RAM_MEM_INIT_FILENAME</value>
@@ -432,7 +483,7 @@
  </module>
  <module>
   <name>hps_0_clk_0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <className>hps_clk_src</className>
   <clockConnection>
    <moduleName>hps_0_clk_0</moduleName>
@@ -444,7 +495,7 @@
  </module>
  <module>
   <name>hps_0_bridges</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>simple-bus</value>
@@ -473,7 +524,7 @@
     <slaveDesc>hps_0_axi_sdram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>-2147483648</value>
@@ -508,7 +559,7 @@
     <slaveDesc>onchip_memory2_0</slaveDesc>
     <slave>
      <name>s1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -543,11 +594,50 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
+    <slave>
+     <name>avalon_slave_0</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave_0</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>0</baseAddress>
+    <basePhysicalAddress>0</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>I2C_avalon_bridge_0</moduleName>
     <slaveDesc>I2C_avalon_bridge_0</slaveDesc>
     <slave>
      <name>avalon_slave_0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -567,9 +657,9 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave_0</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>0</baseAddress>
-    <basePhysicalAddress>0</basePhysicalAddress>
-    <span>16</span>
+    <baseAddress>32</baseAddress>
+    <basePhysicalAddress>32</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -586,7 +676,7 @@
     <slaveDesc>sysid_qsys</slaveDesc>
     <slave>
      <name>control_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
       <value>false</value>
@@ -621,7 +711,7 @@
     <slaveDesc>jtag_uart</slaveDesc>
     <slave>
      <name>avalon_jtag_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -660,7 +750,7 @@
     <slaveDesc>hps_0_gmac0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -687,7 +777,7 @@
     <slaveDesc>hps_0_gmac1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -714,7 +804,7 @@
     <slaveDesc>hps_0_sdmmc</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -741,7 +831,7 @@
     <slaveDesc>hps_0_qspi</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -751,7 +841,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -778,7 +868,7 @@
     <slaveDesc>hps_0_fpgamgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -788,7 +878,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -815,7 +905,7 @@
     <slaveDesc>hps_0_gpio0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -842,7 +932,7 @@
     <slaveDesc>hps_0_gpio1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -869,7 +959,7 @@
     <slaveDesc>hps_0_gpio2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -896,7 +986,7 @@
     <slaveDesc>hps_0_l3regs</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -923,7 +1013,7 @@
     <slaveDesc>hps_0_nand0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -933,7 +1023,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -960,7 +1050,7 @@
     <slaveDesc>hps_0_usb0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -987,7 +1077,7 @@
     <slaveDesc>hps_0_usb1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -1014,7 +1104,7 @@
     <slaveDesc>hps_0_dcan0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -1041,7 +1131,7 @@
     <slaveDesc>hps_0_dcan1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -1068,7 +1158,7 @@
     <slaveDesc>hps_0_uart0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1099,7 +1189,7 @@
     <slaveDesc>hps_0_uart1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1130,7 +1220,7 @@
     <slaveDesc>hps_0_i2c0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1157,7 +1247,7 @@
     <slaveDesc>hps_0_i2c1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1184,7 +1274,7 @@
     <slaveDesc>hps_0_i2c2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1211,7 +1301,7 @@
     <slaveDesc>hps_0_i2c3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1238,7 +1328,7 @@
     <slaveDesc>hps_0_timer0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1265,7 +1355,7 @@
     <slaveDesc>hps_0_timer1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1292,7 +1382,7 @@
     <slaveDesc>hps_0_sdrctl</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -1319,7 +1409,7 @@
     <slaveDesc>hps_0_timer2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1346,7 +1436,7 @@
     <slaveDesc>hps_0_timer3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1373,7 +1463,7 @@
     <slaveDesc>hps_0_clkmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -1400,7 +1490,7 @@
     <slaveDesc>hps_0_rstmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1427,7 +1517,7 @@
     <slaveDesc>hps_0_sysmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>1024</value>
@@ -1454,7 +1544,7 @@
     <slaveDesc>hps_0_dma</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -1481,7 +1571,7 @@
     <slaveDesc>hps_0_spim0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1508,7 +1598,7 @@
     <slaveDesc>hps_0_spim1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1535,7 +1625,7 @@
     <slaveDesc>hps_0_timer</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1562,7 +1652,7 @@
     <slaveDesc>hps_0_arm_gic_0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -1572,7 +1662,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -1599,7 +1689,7 @@
     <slaveDesc>hps_0_L2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -1626,7 +1716,7 @@
     <slaveDesc>hps_0_axi_ocram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -1685,7 +1775,7 @@
  </module>
  <module>
   <name>hps_0_eosc1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>fixed-clock</value>
@@ -1709,7 +1799,7 @@
  </module>
  <module>
   <name>hps_0_eosc2</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>fixed-clock</value>
@@ -1733,7 +1823,7 @@
  </module>
  <module>
   <name>hps_0_f2s_periph_ref_clk</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>fixed-clock</value>
@@ -1757,7 +1847,7 @@
  </module>
  <module>
   <name>hps_0_f2s_sdram_ref_clk</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>fixed-clock</value>
@@ -1781,7 +1871,7 @@
  </module>
  <module>
   <name>hps_0_arm_a9_0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>arm,cortex-a9</value>
@@ -1808,7 +1898,7 @@
     <slaveDesc>hps_0_axi_sdram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>-2147483648</value>
@@ -1843,7 +1933,7 @@
     <slaveDesc>onchip_memory2_0</slaveDesc>
     <slave>
      <name>s1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -1878,11 +1968,50 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
+    <slave>
+     <name>avalon_slave_0</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave_0</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>4280287232</baseAddress>
+    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>I2C_avalon_bridge_0</moduleName>
     <slaveDesc>I2C_avalon_bridge_0</slaveDesc>
     <slave>
      <name>avalon_slave_0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -1902,9 +2031,9 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave_0</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280287232</baseAddress>
-    <basePhysicalAddress>4280287232</basePhysicalAddress>
-    <span>16</span>
+    <baseAddress>4280287264</baseAddress>
+    <basePhysicalAddress>4280287264</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -1921,7 +2050,7 @@
     <slaveDesc>sysid_qsys</slaveDesc>
     <slave>
      <name>control_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
       <value>false</value>
@@ -1956,7 +2085,7 @@
     <slaveDesc>jtag_uart</slaveDesc>
     <slave>
      <name>avalon_jtag_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -1995,7 +2124,7 @@
     <slaveDesc>hps_0_gmac0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -2022,7 +2151,7 @@
     <slaveDesc>hps_0_gmac1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -2049,7 +2178,7 @@
     <slaveDesc>hps_0_sdmmc</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2076,7 +2205,7 @@
     <slaveDesc>hps_0_qspi</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2086,7 +2215,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2113,7 +2242,7 @@
     <slaveDesc>hps_0_fpgamgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2123,7 +2252,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2150,7 +2279,7 @@
     <slaveDesc>hps_0_gpio0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2177,7 +2306,7 @@
     <slaveDesc>hps_0_gpio1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2204,7 +2333,7 @@
     <slaveDesc>hps_0_gpio2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2231,7 +2360,7 @@
     <slaveDesc>hps_0_l3regs</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2258,7 +2387,7 @@
     <slaveDesc>hps_0_nand0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -2268,7 +2397,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -2295,7 +2424,7 @@
     <slaveDesc>hps_0_usb0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -2322,7 +2451,7 @@
     <slaveDesc>hps_0_usb1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -2349,7 +2478,7 @@
     <slaveDesc>hps_0_dcan0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2376,7 +2505,7 @@
     <slaveDesc>hps_0_dcan1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2403,7 +2532,7 @@
     <slaveDesc>hps_0_uart0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2434,7 +2563,7 @@
     <slaveDesc>hps_0_uart1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2465,7 +2594,7 @@
     <slaveDesc>hps_0_i2c0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2492,7 +2621,7 @@
     <slaveDesc>hps_0_i2c1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2519,7 +2648,7 @@
     <slaveDesc>hps_0_i2c2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2546,7 +2675,7 @@
     <slaveDesc>hps_0_i2c3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2573,7 +2702,7 @@
     <slaveDesc>hps_0_timer0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2600,7 +2729,7 @@
     <slaveDesc>hps_0_timer1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2627,7 +2756,7 @@
     <slaveDesc>hps_0_sdrctl</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2654,7 +2783,7 @@
     <slaveDesc>hps_0_timer2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2681,7 +2810,7 @@
     <slaveDesc>hps_0_timer3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2708,7 +2837,7 @@
     <slaveDesc>hps_0_wd_timer0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2735,7 +2864,7 @@
     <slaveDesc>hps_0_wd_timer1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2762,7 +2891,7 @@
     <slaveDesc>hps_0_clkmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2789,7 +2918,7 @@
     <slaveDesc>hps_0_rstmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2816,7 +2945,7 @@
     <slaveDesc>hps_0_sysmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>1024</value>
@@ -2843,7 +2972,7 @@
     <slaveDesc>hps_0_dma</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2870,7 +2999,7 @@
     <slaveDesc>hps_0_spim0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2897,7 +3026,7 @@
     <slaveDesc>hps_0_spim1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2924,7 +3053,7 @@
     <slaveDesc>hps_0_scu</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2951,7 +3080,7 @@
     <slaveDesc>hps_0_timer</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -2978,7 +3107,7 @@
     <slaveDesc>hps_0_arm_gic_0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -2988,7 +3117,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3015,7 +3144,7 @@
     <slaveDesc>hps_0_L2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -3042,7 +3171,7 @@
     <slaveDesc>hps_0_axi_ocram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -3083,7 +3212,7 @@
  </module>
  <module>
   <name>hps_0_arm_a9_1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>arm,cortex-a9</value>
@@ -3110,7 +3239,7 @@
     <slaveDesc>hps_0_axi_sdram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>-2147483648</value>
@@ -3145,7 +3274,7 @@
     <slaveDesc>onchip_memory2_0</slaveDesc>
     <slave>
      <name>s1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -3180,11 +3309,50 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
+    <slave>
+     <name>avalon_slave_0</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave_0</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>4280287232</baseAddress>
+    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>I2C_avalon_bridge_0</moduleName>
     <slaveDesc>I2C_avalon_bridge_0</slaveDesc>
     <slave>
      <name>avalon_slave_0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -3204,9 +3372,9 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave_0</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280287232</baseAddress>
-    <basePhysicalAddress>4280287232</basePhysicalAddress>
-    <span>16</span>
+    <baseAddress>4280287264</baseAddress>
+    <basePhysicalAddress>4280287264</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -3223,7 +3391,7 @@
     <slaveDesc>sysid_qsys</slaveDesc>
     <slave>
      <name>control_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
       <value>false</value>
@@ -3258,7 +3426,7 @@
     <slaveDesc>jtag_uart</slaveDesc>
     <slave>
      <name>avalon_jtag_slave</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>embeddedsw.configuration.isFlash</name>
       <value>0</value>
@@ -3297,7 +3465,7 @@
     <slaveDesc>hps_0_gmac0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -3324,7 +3492,7 @@
     <slaveDesc>hps_0_gmac1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -3351,7 +3519,7 @@
     <slaveDesc>hps_0_sdmmc</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -3378,7 +3546,7 @@
     <slaveDesc>hps_0_qspi</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3388,7 +3556,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3415,7 +3583,7 @@
     <slaveDesc>hps_0_fpgamgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -3425,7 +3593,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3452,7 +3620,7 @@
     <slaveDesc>hps_0_gpio0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3479,7 +3647,7 @@
     <slaveDesc>hps_0_gpio1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3506,7 +3674,7 @@
     <slaveDesc>hps_0_gpio2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3533,7 +3701,7 @@
     <slaveDesc>hps_0_l3regs</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -3560,7 +3728,7 @@
     <slaveDesc>hps_0_nand0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -3570,7 +3738,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -3597,7 +3765,7 @@
     <slaveDesc>hps_0_usb0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -3624,7 +3792,7 @@
     <slaveDesc>hps_0_usb1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -3651,7 +3819,7 @@
     <slaveDesc>hps_0_dcan0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -3678,7 +3846,7 @@
     <slaveDesc>hps_0_dcan1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -3705,7 +3873,7 @@
     <slaveDesc>hps_0_uart0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3736,7 +3904,7 @@
     <slaveDesc>hps_0_uart1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3767,7 +3935,7 @@
     <slaveDesc>hps_0_i2c0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3794,7 +3962,7 @@
     <slaveDesc>hps_0_i2c1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3821,7 +3989,7 @@
     <slaveDesc>hps_0_i2c2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3848,7 +4016,7 @@
     <slaveDesc>hps_0_i2c3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3875,7 +4043,7 @@
     <slaveDesc>hps_0_timer0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3902,7 +4070,7 @@
     <slaveDesc>hps_0_timer1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3929,7 +4097,7 @@
     <slaveDesc>hps_0_sdrctl</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -3956,7 +4124,7 @@
     <slaveDesc>hps_0_timer2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -3983,7 +4151,7 @@
     <slaveDesc>hps_0_timer3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4010,7 +4178,7 @@
     <slaveDesc>hps_0_wd_timer0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4037,7 +4205,7 @@
     <slaveDesc>hps_0_wd_timer1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4064,7 +4232,7 @@
     <slaveDesc>hps_0_clkmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -4091,7 +4259,7 @@
     <slaveDesc>hps_0_rstmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4118,7 +4286,7 @@
     <slaveDesc>hps_0_sysmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>1024</value>
@@ -4145,7 +4313,7 @@
     <slaveDesc>hps_0_dma</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -4172,7 +4340,7 @@
     <slaveDesc>hps_0_spim0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4199,7 +4367,7 @@
     <slaveDesc>hps_0_spim1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4226,7 +4394,7 @@
     <slaveDesc>hps_0_scu</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4253,7 +4421,7 @@
     <slaveDesc>hps_0_timer</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4280,7 +4448,7 @@
     <slaveDesc>hps_0_arm_gic_0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -4290,7 +4458,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -4317,7 +4485,7 @@
     <slaveDesc>hps_0_L2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -4344,7 +4512,7 @@
     <slaveDesc>hps_0_axi_ocram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -4385,7 +4553,7 @@
  </module>
  <module>
   <name>hps_0_arm_gic_0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>arm,cortex-a9-gic</value>
@@ -4421,7 +4589,7 @@
  </module>
  <module>
   <name>hps_0_L2</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>arm,pl310-cache</value>
@@ -4453,7 +4621,7 @@
  </module>
  <module>
   <name>hps_0_dma</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>arm,pl330 arm,primecell</value>
@@ -4509,7 +4677,7 @@
  </module>
  <module>
   <name>hps_0_sysmgr</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,sys-mgr syscon</value>
@@ -4541,7 +4709,7 @@
  </module>
  <module>
   <name>hps_0_clkmgr</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,clk-mgr</value>
@@ -4671,7 +4839,7 @@
  </module>
  <module>
   <name>hps_0_rstmgr</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,rst-mgr syscon</value>
@@ -4707,7 +4875,7 @@
  </module>
  <module>
   <name>hps_0_fpgamgr</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,fpga-mgr altr,socfpga-fpga-mgr</value>
@@ -4739,7 +4907,7 @@
  </module>
  <module>
   <name>hps_0_uart0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.CMacro.FIFO_DEPTH</name>
    <value>128</value>
@@ -4799,7 +4967,7 @@
  </module>
  <module>
   <name>hps_0_uart1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.CMacro.FIFO_DEPTH</name>
    <value>128</value>
@@ -4859,7 +5027,7 @@
  </module>
  <module>
   <name>hps_0_timer0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-apb-timer-sp</value>
@@ -4891,7 +5059,7 @@
  </module>
  <module>
   <name>hps_0_timer1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-apb-timer-sp</value>
@@ -4923,7 +5091,7 @@
  </module>
  <module>
   <name>hps_0_timer2</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-apb-timer-osc</value>
@@ -4955,7 +5123,7 @@
  </module>
  <module>
   <name>hps_0_timer3</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-apb-timer-osc</value>
@@ -4987,7 +5155,7 @@
  </module>
  <module>
   <name>hps_0_wd_timer0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-wdt</value>
@@ -5019,7 +5187,7 @@
  </module>
  <module>
   <name>hps_0_wd_timer1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-wdt</value>
@@ -5051,7 +5219,7 @@
  </module>
  <module>
   <name>hps_0_gpio0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-gpio</value>
@@ -5079,7 +5247,7 @@
  </module>
  <module>
   <name>hps_0_gpio1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-gpio</value>
@@ -5107,7 +5275,7 @@
  </module>
  <module>
   <name>hps_0_gpio2</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-gpio</value>
@@ -5135,7 +5303,7 @@
  </module>
  <module>
   <name>hps_0_i2c0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,designware-i2c</value>
@@ -5171,7 +5339,7 @@
  </module>
  <module>
   <name>hps_0_i2c1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,designware-i2c</value>
@@ -5207,7 +5375,7 @@
  </module>
  <module>
   <name>hps_0_i2c2</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,designware-i2c</value>
@@ -5243,7 +5411,7 @@
  </module>
  <module>
   <name>hps_0_i2c3</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,designware-i2c</value>
@@ -5279,7 +5447,7 @@
  </module>
  <module>
   <name>hps_0_nand0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>denali,denali-nand-dt</value>
@@ -5323,7 +5491,7 @@
  </module>
  <module>
   <name>hps_0_spim0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-spi-mmio snps,dw-apb-ssi</value>
@@ -5371,7 +5539,7 @@
  </module>
  <module>
   <name>hps_0_spim1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dw-spi-mmio snps,dw-apb-ssi</value>
@@ -5419,7 +5587,7 @@
  </module>
  <module>
   <name>hps_0_qspi</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>cadence,qspi cdns,qspi-nor</value>
@@ -5463,7 +5631,7 @@
  </module>
  <module>
   <name>hps_0_sdmmc</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,socfpga-dw-mshc</value>
@@ -5509,7 +5677,7 @@
  </module>
  <module>
   <name>hps_0_usb0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dwc-otg snps,dwc2</value>
@@ -5593,7 +5761,7 @@
  </module>
  <module>
   <name>hps_0_usb1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>snps,dwc-otg snps,dwc2</value>
@@ -5677,7 +5845,7 @@
  </module>
  <module>
   <name>hps_0_gmac0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,socfpga-stmmac snps,dwmac-3.70a snps,dwmac</value>
@@ -5733,7 +5901,7 @@
  </module>
  <module>
   <name>hps_0_gmac1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,socfpga-stmmac snps,dwmac-3.70a snps,dwmac</value>
@@ -5789,7 +5957,7 @@
  </module>
  <module>
   <name>hps_0_dcan0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>bosch,d_can</value>
@@ -5821,7 +5989,7 @@
  </module>
  <module>
   <name>hps_0_dcan1</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>bosch,d_can</value>
@@ -5853,7 +6021,7 @@
  </module>
  <module>
   <name>hps_0_l3regs</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,l3regs syscon</value>
@@ -5881,7 +6049,7 @@
  </module>
  <module>
   <name>hps_0_sdrctl</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>altr,sdr-ctl syscon</value>
@@ -5909,7 +6077,7 @@
  </module>
  <module>
   <name>hps_0_axi_ocram</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.CMacro.SIZE_MULTIPLE</name>
    <value>1</value>
@@ -5957,7 +6125,7 @@
  </module>
  <module>
   <name>hps_0_axi_sdram</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.CMacro.SIZE_MULTIPLE</name>
    <value>1</value>
@@ -6005,7 +6173,7 @@
  </module>
  <module>
   <name>hps_0_timer</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>arm,cortex-a9-twd-timer</value>
@@ -6033,7 +6201,7 @@
  </module>
  <module>
   <name>hps_0_scu</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
    <value>arm,cortex-a9-scu</value>
@@ -6061,7 +6229,7 @@
  </module>
  <module>
   <name>hps_only_master</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>debug.hostConnection</name>
    <value>type jtag id 110:132</value>
@@ -6076,7 +6244,7 @@
     <slaveDesc>hps_0_axi_sdram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>-2147483648</value>
@@ -6111,7 +6279,7 @@
     <slaveDesc>hps_0_gmac0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -6138,7 +6306,7 @@
     <slaveDesc>hps_0_gmac1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>8192</value>
@@ -6165,7 +6333,7 @@
     <slaveDesc>hps_0_sdmmc</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6192,7 +6360,7 @@
     <slaveDesc>hps_0_qspi</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6202,7 +6370,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6229,7 +6397,7 @@
     <slaveDesc>hps_0_fpgamgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6239,7 +6407,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6266,7 +6434,7 @@
     <slaveDesc>hps_0_gpio0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6293,7 +6461,7 @@
     <slaveDesc>hps_0_gpio1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6320,7 +6488,7 @@
     <slaveDesc>hps_0_gpio2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6347,7 +6515,7 @@
     <slaveDesc>hps_0_l3regs</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6374,7 +6542,7 @@
     <slaveDesc>hps_0_nand0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -6384,7 +6552,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -6411,7 +6579,7 @@
     <slaveDesc>hps_0_usb0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -6438,7 +6606,7 @@
     <slaveDesc>hps_0_usb1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>262144</value>
@@ -6465,7 +6633,7 @@
     <slaveDesc>hps_0_dcan0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6492,7 +6660,7 @@
     <slaveDesc>hps_0_dcan1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6519,7 +6687,7 @@
     <slaveDesc>hps_0_uart0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6550,7 +6718,7 @@
     <slaveDesc>hps_0_uart1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6581,7 +6749,7 @@
     <slaveDesc>hps_0_i2c0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6608,7 +6776,7 @@
     <slaveDesc>hps_0_i2c1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6635,7 +6803,7 @@
     <slaveDesc>hps_0_i2c2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6662,7 +6830,7 @@
     <slaveDesc>hps_0_i2c3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6689,7 +6857,7 @@
     <slaveDesc>hps_0_timer0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6716,7 +6884,7 @@
     <slaveDesc>hps_0_timer1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6743,7 +6911,7 @@
     <slaveDesc>hps_0_sdrctl</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6770,7 +6938,7 @@
     <slaveDesc>hps_0_timer2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6797,7 +6965,7 @@
     <slaveDesc>hps_0_timer3</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6824,7 +6992,7 @@
     <slaveDesc>hps_0_clkmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6851,7 +7019,7 @@
     <slaveDesc>hps_0_rstmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6878,7 +7046,7 @@
     <slaveDesc>hps_0_sysmgr</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>1024</value>
@@ -6905,7 +7073,7 @@
     <slaveDesc>hps_0_dma</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -6932,7 +7100,7 @@
     <slaveDesc>hps_0_spim0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6959,7 +7127,7 @@
     <slaveDesc>hps_0_spim1</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -6986,7 +7154,7 @@
     <slaveDesc>hps_0_timer</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -7013,7 +7181,7 @@
     <slaveDesc>hps_0_arm_gic_0</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -7023,7 +7191,7 @@
     </slave>
     <slave>
      <name>axi_slave1</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>256</value>
@@ -7050,7 +7218,7 @@
     <slaveDesc>hps_0_L2</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>4096</value>
@@ -7077,7 +7245,7 @@
     <slaveDesc>hps_0_axi_ocram</slaveDesc>
     <slave>
      <name>axi_slave0</name>
-     <version>16.1</version>
+     <version>17.0</version>
      <assignment>
       <name>addressSpan</name>
       <value>65536</value>
@@ -7131,7 +7299,7 @@
  </module>
  <module>
   <name>jtag_uart</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.CMacro.READ_DEPTH</name>
    <value>64</value>
@@ -7175,7 +7343,7 @@
  </module>
  <module>
   <name>onchip_memory2_0</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.CMacro.ALLOW_IN_SYSTEM_MEMORY_CONTENT_EDITOR</name>
    <value>0</value>
@@ -7283,14 +7451,14 @@
  </module>
  <module>
   <name>sysid_qsys</name>
-  <version>16.1</version>
+  <version>17.0</version>
   <assignment>
    <name>embeddedsw.CMacro.ID</name>
    <value>2899645186</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1495010605</value>
+   <value>1495747441</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -7310,7 +7478,7 @@
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1495010605</value>
+   <value>1495747441</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>

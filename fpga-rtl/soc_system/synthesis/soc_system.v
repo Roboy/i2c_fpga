@@ -58,8 +58,10 @@ module soc_system (
 		inout  wire        hps_0_hps_io_hps_io_gpio_inst_GPIO53,  //                          .hps_io_gpio_inst_GPIO53
 		inout  wire        hps_0_hps_io_hps_io_gpio_inst_GPIO54,  //                          .hps_io_gpio_inst_GPIO54
 		inout  wire        hps_0_hps_io_hps_io_gpio_inst_GPIO61,  //                          .hps_io_gpio_inst_GPIO61
-		inout  wire        i2c_avalon_bridge_scl,                 //         i2c_avalon_bridge.scl
-		inout  wire        i2c_avalon_bridge_sda,                 //                          .sda
+		inout  wire        i2c_avalon_bridge0_scl,                //        i2c_avalon_bridge0.scl
+		inout  wire        i2c_avalon_bridge0_sda,                //                          .sda
+		inout  wire        i2c_avalon_bridge1_scl,                //        i2c_avalon_bridge1.scl
+		inout  wire        i2c_avalon_bridge1_sda,                //                          .sda
 		output wire [14:0] memory_mem_a,                          //                    memory.mem_a
 		output wire [2:0]  memory_mem_ba,                         //                          .mem_ba
 		output wire        memory_mem_ck,                         //                          .mem_ck
@@ -184,6 +186,12 @@ module soc_system (
 	wire          mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_read;        // mm_interconnect_0:I2C_avalon_bridge_0_avalon_slave_0_read -> I2C_avalon_bridge_0:read
 	wire          mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_write;       // mm_interconnect_0:I2C_avalon_bridge_0_avalon_slave_0_write -> I2C_avalon_bridge_0:write
 	wire   [31:0] mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_writedata;   // mm_interconnect_0:I2C_avalon_bridge_0_avalon_slave_0_writedata -> I2C_avalon_bridge_0:writedata
+	wire   [31:0] mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_readdata;    // I2C_avalon_bridge_1:readdata -> mm_interconnect_0:I2C_avalon_bridge_1_avalon_slave_0_readdata
+	wire          mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_waitrequest; // I2C_avalon_bridge_1:waitrequest -> mm_interconnect_0:I2C_avalon_bridge_1_avalon_slave_0_waitrequest
+	wire    [2:0] mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_address;     // mm_interconnect_0:I2C_avalon_bridge_1_avalon_slave_0_address -> I2C_avalon_bridge_1:address
+	wire          mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_read;        // mm_interconnect_0:I2C_avalon_bridge_1_avalon_slave_0_read -> I2C_avalon_bridge_1:read
+	wire          mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_write;       // mm_interconnect_0:I2C_avalon_bridge_1_avalon_slave_0_write -> I2C_avalon_bridge_1:write
+	wire   [31:0] mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_writedata;   // mm_interconnect_0:I2C_avalon_bridge_1_avalon_slave_0_writedata -> I2C_avalon_bridge_1:writedata
 	wire   [31:0] hps_only_master_master_readdata;                                  // mm_interconnect_1:hps_only_master_master_readdata -> hps_only_master:master_readdata
 	wire          hps_only_master_master_waitrequest;                               // mm_interconnect_1:hps_only_master_master_waitrequest -> hps_only_master:master_waitrequest
 	wire   [31:0] hps_only_master_master_address;                                   // hps_only_master:master_address -> mm_interconnect_1:hps_only_master_master_address
@@ -234,7 +242,7 @@ module soc_system (
 	wire   [31:0] hps_0_f2h_irq1_irq;                                               // irq_mapper_001:sender_irq -> hps_0:f2h_irq_p1
 	wire   [31:0] intr_capturer_0_interrupt_receiver_irq;                           // irq_mapper_002:sender_irq -> intr_capturer_0:interrupt_in
 	wire          irq_mapper_receiver0_irq;                                         // jtag_uart:av_irq -> [irq_mapper:receiver0_irq, irq_mapper_002:receiver0_irq]
-	wire          rst_controller_reset_out_reset;                                   // rst_controller:reset_out -> [I2C_avalon_bridge_0:reset, intr_capturer_0:rst_n, irq_mapper_002:reset, jtag_uart:rst_n, mm_interconnect_0:fpga_only_master_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_0:onchip_memory2_0_reset1_reset_bridge_in_reset_reset, mm_interconnect_1:hps_only_master_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_1:hps_only_master_master_translator_reset_reset_bridge_in_reset_reset, onchip_memory2_0:reset, rst_translator:in_reset, sysid_qsys:reset_n]
+	wire          rst_controller_reset_out_reset;                                   // rst_controller:reset_out -> [I2C_avalon_bridge_0:reset, I2C_avalon_bridge_1:reset, intr_capturer_0:rst_n, irq_mapper_002:reset, jtag_uart:rst_n, mm_interconnect_0:fpga_only_master_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_0:onchip_memory2_0_reset1_reset_bridge_in_reset_reset, mm_interconnect_1:hps_only_master_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_1:hps_only_master_master_translator_reset_reset_bridge_in_reset_reset, onchip_memory2_0:reset, rst_translator:in_reset, sysid_qsys:reset_n]
 	wire          rst_controller_reset_out_reset_req;                               // rst_controller:reset_req -> [onchip_memory2_0:reset_req, rst_translator:reset_req_in]
 	wire          rst_controller_001_reset_out_reset;                               // rst_controller_001:reset_out -> [mm_interconnect_0:hps_0_h2f_axi_master_agent_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_1:hps_0_f2h_axi_slave_agent_reset_sink_reset_bridge_in_reset_reset]
 
@@ -246,8 +254,21 @@ module soc_system (
 		.read        (mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_read),        //               .read
 		.readdata    (mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_readdata),    //               .readdata
 		.waitrequest (mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_waitrequest), //               .waitrequest
-		.scl         (i2c_avalon_bridge_scl),                                            //    conduit_end.scl
-		.sda         (i2c_avalon_bridge_sda),                                            //               .sda
+		.scl         (i2c_avalon_bridge0_scl),                                           //    conduit_end.scl
+		.sda         (i2c_avalon_bridge0_sda),                                           //               .sda
+		.clock       (clk_clk)                                                           //     clock_sink.clk
+	);
+
+	I2C_avalon_bridge i2c_avalon_bridge_1 (
+		.reset       (rst_controller_reset_out_reset),                                   //          reset.reset
+		.address     (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_address),     // avalon_slave_0.address
+		.write       (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_write),       //               .write
+		.writedata   (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_writedata),   //               .writedata
+		.read        (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_read),        //               .read
+		.readdata    (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_readdata),    //               .readdata
+		.waitrequest (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_waitrequest), //               .waitrequest
+		.scl         (i2c_avalon_bridge1_scl),                                           //    conduit_end.scl
+		.sda         (i2c_avalon_bridge1_sda),                                           //               .sda
 		.clock       (clk_clk)                                                           //     clock_sink.clk
 	);
 
@@ -613,6 +634,12 @@ module soc_system (
 		.I2C_avalon_bridge_0_avalon_slave_0_readdata                      (mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_readdata),    //                                                           .readdata
 		.I2C_avalon_bridge_0_avalon_slave_0_writedata                     (mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_writedata),   //                                                           .writedata
 		.I2C_avalon_bridge_0_avalon_slave_0_waitrequest                   (mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_waitrequest), //                                                           .waitrequest
+		.I2C_avalon_bridge_1_avalon_slave_0_address                       (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_address),     //                         I2C_avalon_bridge_1_avalon_slave_0.address
+		.I2C_avalon_bridge_1_avalon_slave_0_write                         (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_write),       //                                                           .write
+		.I2C_avalon_bridge_1_avalon_slave_0_read                          (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_read),        //                                                           .read
+		.I2C_avalon_bridge_1_avalon_slave_0_readdata                      (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_readdata),    //                                                           .readdata
+		.I2C_avalon_bridge_1_avalon_slave_0_writedata                     (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_writedata),   //                                                           .writedata
+		.I2C_avalon_bridge_1_avalon_slave_0_waitrequest                   (mm_interconnect_0_i2c_avalon_bridge_1_avalon_slave_0_waitrequest), //                                                           .waitrequest
 		.intr_capturer_0_avalon_slave_0_address                           (mm_interconnect_0_intr_capturer_0_avalon_slave_0_address),         //                             intr_capturer_0_avalon_slave_0.address
 		.intr_capturer_0_avalon_slave_0_read                              (mm_interconnect_0_intr_capturer_0_avalon_slave_0_read),            //                                                           .read
 		.intr_capturer_0_avalon_slave_0_readdata                          (mm_interconnect_0_intr_capturer_0_avalon_slave_0_readdata),        //                                                           .readdata
