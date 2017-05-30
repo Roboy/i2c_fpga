@@ -7,11 +7,10 @@
 #include "hps_0.h"
 
 class I2C {
-private:
-	void * h2p_lw_i2c_addr;
-
+	
 public:
 	I2C(void * baseAddr);
+	void * h2p_lw_i2c_addr;
 
 	// registers: read or write
 	const uint8_t ADDR = 0;
@@ -29,7 +28,7 @@ public:
 	const uint8_t WRITE = 0;
 	const uint8_t READ = 1;
 
-	void write(uint8_t i2cAddr, uint32_t data, uint8_t number_of_bytes);
+	static void write(uint8_t i2cAddr, uint32_t data, uint8_t number_of_bytes);
 	uint32_t read(uint8_t i2cAddr, uint8_t reg, uint8_t number_of_bytes);
 };
 

@@ -14,6 +14,14 @@
 #define HW_REGS_SPAN ( 0x04000000 )
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
+#define ndevices 3                  // Always set this first
+
+#include "i2c_fpga/tlv493d.h"
+
+// Look in the device's user manual for allowed addresses! (Table 6)
+uint8_t deviceaddress[ndevices] = {0b1011110, 0b0001111, 0b0001011};
+int devicepin[ndevices] = {31,35,39};
+
 int main(int argc, char *argv[]) {
 
 	void *virtual_base;
@@ -44,11 +52,50 @@ int main(int argc, char *argv[]) {
 		ros::init(argc, argv, "i2c_fpga", ros::init_options::AnonymousName);
 	}
 
+    // Initialize I2C bus and setup sensors
+
     I2C i2c(h2p_lw_i2c_addr);
+
+    uint8_t initcfg[3];
+    uint8_t* factory_settings[ndevices];
+
+    IOWR(h2p_lw_i2c_addr, 5, 0); // Make sure all devices are off before configuring
+
+    printf("Ok, initialized I2C bus\n");
+    printf("---------Activating sensors--------\n");
+    usleep(500);                                       // Letting things settle
+    factory_settings[0] = initTLV(deviceaddress[0], initcfg, devicepin[0]);    // Write device address and initial config
+    factory_settings[1] = initTLV(deviceaddress[1], initcfg, devicepin[1]);
+    factory_settings[2] = initTLV(deviceaddress[2], initcfg, devicepin[2]);
+    printf("---------Done configuring---------\n");
+
+    // Read data out and convert it
+
+    while(1){
+        usleep(10000);
+        uint8_t data[3];
+        uint8_t data2[3];
+        uint8_t data3[3];
+        readTLV_B_MSB(deviceaddress[0], data);
+        readTLV_B_MSB(deviceaddress[1], data2);
+        readTLV_B_MSB(deviceaddress[2], data3);
+        printf("%f\t", convertToMilliTesla(data[0]));
+        printf("%f\t", convertToMilliTesla(data[1]));
+        printf("%f\t", convertToMilliTesla(data[2]));
+        printf("%f\t", convertToMilliTesla(data2[0]));
+        printf("%f\t", convertToMilliTesla(data2[1]));
+        printf("%f\t", convertToMilliTesla(data2[2]));
+        printf("%f\t", convertToMilliTesla(data3[0]));
+        printf("%f\t", convertToMilliTesla(data3[1]));
+        printf("%f\n", convertToMilliTesla(data3[2]));
+    }
+
 
     IOWR(h2p_lw_i2c_addr, 5, 0x1);
     usleep(1000000);
     IOWR(h2p_lw_i2c_addr, 5, 0);
+
+
 
 
 
