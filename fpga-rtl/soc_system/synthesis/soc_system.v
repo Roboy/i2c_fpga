@@ -60,6 +60,7 @@ module soc_system (
 		inout  wire        hps_0_hps_io_hps_io_gpio_inst_GPIO61,  //                          .hps_io_gpio_inst_GPIO61
 		inout  wire        i2c_avalon_bridge_scl,                 //         i2c_avalon_bridge.scl
 		inout  wire        i2c_avalon_bridge_sda,                 //                          .sda
+		output wire [2:0]  i2c_avalon_bridge_gpio,                //                          .gpio
 		output wire [14:0] memory_mem_a,                          //                    memory.mem_a
 		output wire [2:0]  memory_mem_ba,                         //                          .mem_ba
 		output wire        memory_mem_ck,                         //                          .mem_ck
@@ -248,6 +249,7 @@ module soc_system (
 		.waitrequest (mm_interconnect_0_i2c_avalon_bridge_0_avalon_slave_0_waitrequest), //               .waitrequest
 		.scl         (i2c_avalon_bridge_scl),                                            //    conduit_end.scl
 		.sda         (i2c_avalon_bridge_sda),                                            //               .sda
+		.gpio        (i2c_avalon_bridge_gpio),                                           //               .gpio
 		.clock       (clk_clk)                                                           //     clock_sink.clk
 	);
 

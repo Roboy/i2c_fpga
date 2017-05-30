@@ -16,6 +16,7 @@ module I2C_avalon_bridge (
 	input read,
 	output signed [31:0] readdata,
 	output waitrequest,
+	output [2:0] gpio,
 //	output interrupt_sender_irq,
 	// these are the i2c ports
 	inout scl,
@@ -32,6 +33,10 @@ wire [2:0] byte_counter;
 reg busy_prev;
 reg [31:0] data_rd;
 reg [31:0] data_wd;
+
+reg [3:0] gpio_set;
+
+assign gpio = gpio_set[2:0];
 
 assign readdata = 
 	((address == 0))? addr :
@@ -55,12 +60,15 @@ always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
 				2: rw <= writedata; 
 				3: ena <= writedata;
 				4: number_of_bytes <= writedata;
+				5: gpio_set <= writedata[3:0];
 			endcase 
 		end
 		if(byte_counter>=number_of_bytes) 
 			ena <= 0;
 	end 
 end
+
+assign sda = gpio_set[3]?0:1'bz;
 
 // if i2c node is busy we have to wait
 assign waitrequest = ena ;

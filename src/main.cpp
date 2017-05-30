@@ -44,28 +44,37 @@ int main(int argc, char *argv[]) {
 		ros::init(argc, argv, "i2c_fpga", ros::init_options::AnonymousName);
 	}
 
-	vector<int> deviceIDs = {0,1,2,3};
-	AM4096 jointAngle(h2p_lw_i2c_addr,deviceIDs);
-	while(ros::ok()){
-		vector<uint32_t> absAngles, relAngles, tacho;
-		vector<uint8_t> agcGain;
-		vector<bool> tooFar, tooClose;
-		jointAngle.readAbsAngle(absAngles);
-		jointAngle.readRelAngle(relAngles);
-		jointAngle.readMagnetStatus(tooFar, tooClose);
-		jointAngle.readTacho(tacho);
-		jointAngle.readAgcGain(agcGain);
-		for(uint i=0; i<jointAngle.i2cAddrs.size(); i++) {
-			printf("-------------sensor %d -------------\n", jointAngle.i2cAddrs[i]);
-			printf("magnet   %s\n", (tooFar[i] ? "too far" : (tooClose[i] ? "too close" : "ok")));
-			printf("agc gain %d\n", agcGain[i]);
-			printf("absPos   %d\n", absAngles[i]);
-			printf("relPos   %d\n", relAngles[i]);
-			printf("tacho    %d\n", tacho[i]);
-			printf("\n");
-		}
-		usleep(100000);
-	}
+    I2C i2c(h2p_lw_i2c_addr);
+
+    IOWR(h2p_lw_i2c_addr, 5, 0x1);
+    usleep(1000000);
+    IOWR(h2p_lw_i2c_addr, 5, 0);
+
+
+
+
+//	vector<int> deviceIDs = {0,1,2,3};
+//	AM4096 jointAngle(h2p_lw_i2c_addr,deviceIDs);
+//	while(ros::ok()){
+//		vector<uint32_t> absAngles, relAngles, tacho;
+//		vector<uint8_t> agcGain;
+//		vector<bool> tooFar, tooClose;
+//		jointAngle.readAbsAngle(absAngles);
+//		jointAngle.readRelAngle(relAngles);
+//		jointAngle.readMagnetStatus(tooFar, tooClose);
+//		jointAngle.readTacho(tacho);
+//		jointAngle.readAgcGain(agcGain);
+//		for(uint i=0; i<jointAngle.i2cAddrs.size(); i++) {
+//			printf("-------------sensor %d -------------\n", jointAngle.i2cAddrs[i]);
+//			printf("magnet   %s\n", (tooFar[i] ? "too far" : (tooClose[i] ? "too close" : "ok")));
+//			printf("agc gain %d\n", agcGain[i]);
+//			printf("absPos   %d\n", absAngles[i]);
+//			printf("relPos   %d\n", relAngles[i]);
+//			printf("tacho    %d\n", tacho[i]);
+//			printf("\n");
+//		}
+//		usleep(100000);
+//	}
 
 
 	// clean up our memory mapping and exit
