@@ -56,6 +56,7 @@ module soc_system (
 	hps_0_hps_io_hps_io_gpio_inst_GPIO61,
 	i2c_avalon_bridge_scl,
 	i2c_avalon_bridge_sda,
+	i2c_avalon_bridge_gpio,
 	memory_mem_a,
 	memory_mem_ba,
 	memory_mem_ck,
@@ -130,6 +131,7 @@ module soc_system (
 	inout		hps_0_hps_io_hps_io_gpio_inst_GPIO61;
 	inout		i2c_avalon_bridge_scl;
 	inout		i2c_avalon_bridge_sda;
+	output	[2:0]	i2c_avalon_bridge_gpio;
 	output	[14:0]	memory_mem_a;
 	output	[2:0]	memory_mem_ba;
 	output		memory_mem_ck;

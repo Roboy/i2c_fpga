@@ -50,6 +50,7 @@ ENTITY i2c_master IS
     sda       : INOUT  STD_LOGIC;                    --serial data output of i2c bus
     scl       : INOUT  STD_LOGIC;                   --serial clock output of i2c bus
 	 byte_counter : OUT INTEGER RANGE 0 TO 7;				--how many bytes have been sent or received
+	 read_only : IN STD_LOGIC;
 	 number_of_bytes : IN INTEGER RANGE 0 TO 7);     --how many bytes should be sent or received in tota
 END i2c_master;
 
@@ -124,7 +125,7 @@ BEGIN
           WHEN ready =>                      --idle state
             IF(ena = '1') THEN               --transaction requested
               busy <= '1';                   --flag busy
-				  IF(rw = '1') THEN
+				  IF(rw = '1' and read_only = '0') THEN -- if readonly is not set
 					addr_rw <= addr & (not rw);   --we need to write the register we want to read from first
 				  ELSE
 					addr_rw <= addr & rw;          --collect requested slave address and command

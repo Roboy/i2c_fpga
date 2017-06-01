@@ -35,6 +35,7 @@ reg [31:0] data_rd;
 reg [31:0] data_wd;
 
 reg [3:0] gpio_set;
+reg read_only;
 
 assign gpio = gpio_set[2:0];
 
@@ -51,6 +52,7 @@ always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
 	if (reset == 1) begin 
 		data_wd <= 0;
 		ena <= 0;
+		read_only <= 0;
 	end else begin
 		// if we are writing via avalon bus and waitrequest is deasserted, write the respective register
 		if(write && ~waitrequest) begin
@@ -61,6 +63,7 @@ always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
 				3: ena <= writedata;
 				4: number_of_bytes <= writedata;
 				5: gpio_set <= writedata[3:0];
+				6: read_only <= (writedata!=0);
 			endcase 
 		end
 		if(byte_counter>=number_of_bytes) 
@@ -86,6 +89,7 @@ i2c_master i2c(
 	.sda(sda),
 	.scl(scl),
 	.byte_counter(byte_counter),
+	.read_only(read_only),
 	.number_of_bytes(number_of_bytes)
 );
 

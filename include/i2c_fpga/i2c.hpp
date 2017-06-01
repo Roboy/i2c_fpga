@@ -7,7 +7,7 @@
 #include "hps_0.h"
 
 class I2C {
-	
+
 public:
 	I2C(void * baseAddr);
 	void * h2p_lw_i2c_addr;
