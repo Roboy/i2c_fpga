@@ -36,3 +36,23 @@ uint32_t I2C::read(uint8_t i2cAddr, uint8_t reg, uint8_t number_of_bytes) {
 	return IORD(h2p_lw_i2c_addr, DATA);
 }
 
+uint8_t* I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes) {
+    IOWR(h2p_lw_i2c_addr, 6, 1);        // Set this register to enable reading from the I2C bus without having to write
+                                        // the address of the register to read beforehand.
+    // we need this small pause!
+    usleep(1);
+    // Set slave address
+    IOWR(h2p_lw_i2c_addr, ADDR, i2cAddr);
+    // Set operation mode: read
+    IOWR(h2p_lw_i2c_addr, RW, READ);
+    // Set data to write
+    IOWR(h2p_lw_i2c_addr, DATA, reg);
+    // Set the number of bytes to be read + 1 for the register to read from
+    IOWR(h2p_lw_i2c_addr, NUMBER_OF_BYTES, number_of_bytes+1);
+    // Start operation (enable = 1)
+    IOWR(h2p_lw_i2c_addr, ENA, 1);
+    // read and return data
+    return IORD(h2p_lw_i2c_addr, DATA);
+}
+
+

@@ -56,6 +56,7 @@ int main(int argc, char *argv[]) {
 
     I2C i2c(h2p_lw_i2c_addr);
 
+
     uint8_t initcfg[3];
     uint8_t* factory_settings[ndevices];
 

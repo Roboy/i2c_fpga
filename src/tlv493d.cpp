@@ -37,13 +37,14 @@ uint8_t* initTLV(uint8_t deviceaddress, uint8_t* data, uint8_t devicepin)
 
     if (ADDR_pin != 1){
         // Unblock I2C and take control of the SDA line
-        // IOWR(h2p_lw_i2c_addr, 5, tmpreg|0b1000);
-
+        IOWR(h2p_lw_i2c_addr, 5, tmpreg|0b1000);
         printf("Activating 'El cacharro' %d (SDA Low)\n", devicepin);
         // Power on device while SDA low to set ADDR bit to 0
+        usleep(1);
+        IOWR(h2p_lw_i2c_addr, 5, tmpreg|(1<<devicepin));
         usleep(1000);                     // At least during 200us
         // Release SDA line again
-        // IOWR(h2p_lw_i2c_addr, 5, tmpreg&0b0111);
+        IOWR(h2p_lw_i2c_addr, 5, tmpreg&0b0111);
         defaultaddr = 0b0011111;
     }else{
         if(devicepin != 255){
@@ -59,13 +60,14 @@ uint8_t* initTLV(uint8_t deviceaddress, uint8_t* data, uint8_t devicepin)
 //  printf("But first checking correct address by bruteforcing the entire range. Fuck you angry pixies!\n");
 //  for (uint8_t tmpaddr = 1; tmpaddr <=127; tmpaddr++){
 //    I2C::read(tmpaddr, 0, (uint8_t) 10);
-//    if(Wire.available()){             \\Todo: implement this feature in the I2C core in the FPGA
+//    if(Wire.available()){             //Todo: implement this feature in the I2C core in the FPGA
+                                        //Todo: So, technically this is already in place, just read register 5 with IORD
 //      printf("Address found: %x\n", tmpaddr);
 //      break;
 //    }
 //  }
-    Wire.requestFrom(defaultaddr,(uint8_t) 10); // Beginning first read (for backup)
-    while(Wire.available()){
+    I2C::read(defaultaddr, 0, 10); // Beginning first read (for backup)
+    while(!IORD(h2p_lw_i2c_addr,5)){
         regdata[reg] = Wire.read();
         reg++;
     }
