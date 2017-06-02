@@ -5,6 +5,9 @@
 #include <fcntl.h>
 #include "hwlib.h"
 #include "hps_0.h"
+#include <vector>
+
+using namespace std;
 
 class I2C {
 
@@ -18,7 +21,10 @@ public:
 	const uint8_t RW = 2;
 	const uint8_t ENA = 3;
 	const uint8_t NUMBER_OF_BYTES = 4;
-	const uint8_t GPIO_CONTROL = 5;
+
+    // registers: only write
+    const uint8_t GPIO_CONTROL = 5;
+    const uint8_t READ_ONLY = 6;
 
 	// registers: only read
 	const uint8_t BUSY = 4;
@@ -28,8 +34,9 @@ public:
 	const uint8_t WRITE = 0;
 	const uint8_t READ = 1;
 
-	static void write(uint8_t i2cAddr, uint32_t data, uint8_t number_of_bytes);
+	void write(uint8_t i2cAddr, uint32_t data, uint8_t number_of_bytes);
 	uint32_t read(uint8_t i2cAddr, uint8_t reg, uint8_t number_of_bytes);
+    void read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint32_t> &data);
 };
 
 #define IORD(base,reg) (*(((volatile int32_t*)base)+reg))

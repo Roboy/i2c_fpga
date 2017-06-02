@@ -7,20 +7,16 @@
 #include "socal/hps.h"
 #include "socal/alt_gpio.h"
 #include "i2c_fpga/hps_0.h"
-#include "i2c_fpga/am4096.hpp"
+#include "i2c_fpga/tlv493d.hpp"
 #include <limits.h>
 
 #define HW_REGS_BASE ( ALT_STM_OFST )
 #define HW_REGS_SPAN ( 0x04000000 )
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
-#define ndevices 3                  // Always set this first
-
-#include "i2c_fpga/tlv493d.h"
-
 // Look in the device's user manual for allowed addresses! (Table 6)
-uint8_t deviceaddress[ndevices] = {0b1011110, 0b0001111, 0b0001011};
-int devicepin[ndevices] = {31,35,39};
+vector<uint8_t> deviceaddress = {0b1011110};//, 0b0001111, 0b0001011
+vector<int> devicepin = {0};//,1,2
 
 int main(int argc, char *argv[]) {
 
@@ -54,52 +50,45 @@ int main(int argc, char *argv[]) {
 
     // Initialize I2C bus and setup sensors
 
-    I2C i2c(h2p_lw_i2c_addr);
+    TLV493D tlv493D(h2p_lw_i2c_addr, deviceaddress, devicepin);
 
-
-    uint8_t initcfg[3];
-    uint8_t* factory_settings[ndevices];
-
-    IOWR(h2p_lw_i2c_addr, 5, 0); // Make sure all devices are off before configuring
-
-    printf("Ok, initialized I2C bus\n");
-    printf("---------Activating sensors--------\n");
-    usleep(500);                                       // Letting things settle
-    factory_settings[0] = initTLV(deviceaddress[0], initcfg, devicepin[0]);    // Write device address and initial config
-    factory_settings[1] = initTLV(deviceaddress[1], initcfg, devicepin[1]);
-    factory_settings[2] = initTLV(deviceaddress[2], initcfg, devicepin[2]);
-    printf("---------Done configuring---------\n");
-
-    // Read data out and convert it
-
-    while(1){
-        usleep(10000);
-        uint8_t data[3];
-        uint8_t data2[3];
-        uint8_t data3[3];
-        readTLV_B_MSB(deviceaddress[0], data);
-        readTLV_B_MSB(deviceaddress[1], data2);
-        readTLV_B_MSB(deviceaddress[2], data3);
-        printf("%f\t", convertToMilliTesla(data[0]));
-        printf("%f\t", convertToMilliTesla(data[1]));
-        printf("%f\t", convertToMilliTesla(data[2]));
-        printf("%f\t", convertToMilliTesla(data2[0]));
-        printf("%f\t", convertToMilliTesla(data2[1]));
-        printf("%f\t", convertToMilliTesla(data2[2]));
-        printf("%f\t", convertToMilliTesla(data3[0]));
-        printf("%f\t", convertToMilliTesla(data3[1]));
-        printf("%f\n", convertToMilliTesla(data3[2]));
+    IOWR(tlv493D.i2c_base, tlv493D.i2c->GPIO_CONTROL, 1);
+    vector<uint32_t> data;
+    tlv493D.i2c->read_continuous(deviceaddress[0], 10, data); // Beginning first read (for backup)
+    ROS_INFO("%d",IORD(tlv493D.i2c_base, 6));
+    for(uint32_t val:data){
+        ROS_INFO("%x", val);
     }
 
+//    printf("Ok, initialized I2C bus\n");
+//    printf("---------Activating sensors--------\n");
+//    usleep(500);                                       // Letting things settle
+//    factory_settings[0] = initTLV(deviceaddress[0], initcfg, devicepin[0]);    // Write device address and initial config
+//    factory_settings[1] = initTLV(deviceaddress[1], initcfg, devicepin[1]);
+//    factory_settings[2] = initTLV(deviceaddress[2], initcfg, devicepin[2]);
+//    printf("---------Done configuring---------\n");
+//
+//    // Read data out and convert it
 
-    IOWR(h2p_lw_i2c_addr, 5, 0x1);
-    usleep(1000000);
-    IOWR(h2p_lw_i2c_addr, 5, 0);
 
-
-
-
-
+//    while(ros::ok()){
+//        usleep(1000000);
+//        uint8_t data[3];
+//        uint8_t data2[3];
+//        uint8_t data3[3];
+//        tlv493D.readTLV_B_MSB(deviceaddress[0], data);
+//        tlv493D.readTLV_B_MSB(deviceaddress[1], data2);
+//        tlv493D.readTLV_B_MSB(deviceaddress[2], data3);
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[0]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[1]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[2]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data2[0]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data2[1]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data2[2]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data3[0]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data3[1]));
+//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data3[2]));
+//    }
 
 //	vector<int> deviceIDs = {0,1,2,3};
 //	AM4096 jointAngle(h2p_lw_i2c_addr,deviceIDs);

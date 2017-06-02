@@ -46,12 +46,13 @@ ENTITY i2c_master IS
     data_wr   : IN     STD_LOGIC_VECTOR(31 DOWNTO 0); --data to write to slave
     busy      : OUT    STD_LOGIC;                    --indicates transaction in progress
     data_rd   : OUT    STD_LOGIC_VECTOR(31 DOWNTO 0); --data read from slave
+	 fifo_write_ack : OUT STD_LOGIC;						  --once we have read 32 bit of data, we acknowledge to write the byte into the fifo
     ack_error : BUFFER STD_LOGIC;                    --flag if improper acknowledge from slave
     sda       : INOUT  STD_LOGIC;                    --serial data output of i2c bus
     scl       : INOUT  STD_LOGIC;                   --serial clock output of i2c bus
-	 byte_counter : OUT INTEGER RANGE 0 TO 7;				--how many bytes have been sent or received
-	 read_only : IN STD_LOGIC;
-	 number_of_bytes : IN INTEGER RANGE 0 TO 7);     --how many bytes should be sent or received in tota
+	 byte_counter : OUT INTEGER RANGE 0 TO 255;		 --how many bytes have been sent or received
+	 read_only : IN STD_LOGIC;								 --if set we read only without writing what register
+	 number_of_bytes : IN INTEGER RANGE 0 TO 255);     --how many bytes should be sent or received in tota
 END i2c_master;
 
 ARCHITECTURE logic OF i2c_master IS
@@ -70,6 +71,7 @@ ARCHITECTURE logic OF i2c_master IS
   SIGNAL bit_cnt       : INTEGER RANGE 0 TO 7 := 7;      --tracks bit number in transaction
   SIGNAL stretch       : STD_LOGIC := '0';               --identifies if slave is stretching scl
   SIGNAL counter       : INTEGER RANGE 0 TO 7 := 0;      --tracks bit number in transaction
+  SIGNAL fifo_write    : STD_LOGIC;
 BEGIN
 
   --generate the timing for the bus clock (scl_clk) and the data clock (data_clk)
@@ -180,13 +182,29 @@ BEGIN
                 sda_int <= '1';              --send a no-acknowledge (before stop or repeated start)
               END IF;
               bit_cnt <= 7;                  --reset bit counter for "byte" states
-				  case counter is 					--output received data (MSB first)
-						when 4 => data_rd(7 downto 0) <= data_rx;            
-						when 3 => data_rd(15 downto 8) <= data_rx;
-						when 2 => data_rd(23 downto 16) <= data_rx;
-						when 1 => data_rd(31 downto 24) <= data_rx;
-						when others => NULL;
-				  end case;
+				  IF(read_only = '1') THEN
+					  case counter mod 4 is 					--output received data (MSB first)
+							when 3 => data_rd(7 downto 0) <= data_rx;            
+							when 2 => data_rd(15 downto 8) <= data_rx;
+							when 1 => data_rd(23 downto 16) <= data_rx;
+							when 0 => data_rd(31 downto 24) <= data_rx;
+							when others => NULL;
+					  end case;
+					  IF ((counter mod 4)=3) THEN
+							fifo_write <= '1';
+					  END IF;
+				  ELSE
+					  case counter is 					--output received data (MSB first)
+							when 4 => data_rd(7 downto 0) <= data_rx;            
+							when 3 => data_rd(15 downto 8) <= data_rx;
+							when 2 => data_rd(23 downto 16) <= data_rx;
+							when 1 => data_rd(31 downto 24) <= data_rx;
+							when others => NULL;
+					  end case;
+					  IF ((counter mod 4)=0) THEN
+							fifo_write <= '1';
+					  END IF;
+				  END IF;
    			  state <= mstr_ack;             --go to master acknowledge
 				  counter <= counter+1; 			--increase byte counter
             ELSE                             --next clock cycle of read state
@@ -262,8 +280,14 @@ BEGIN
         END CASE;
       END IF;
     END IF;
+	IF(fifo_write = '1') THEN
+		fifo_write <= '0';
+	END IF;
+	 
   END PROCESS;  
 
+  fifo_write_ack <= fifo_write;
+  
   --set sda output
   WITH state SELECT
     sda_ena_n <= data_clk_prev WHEN start,     --generate start condition

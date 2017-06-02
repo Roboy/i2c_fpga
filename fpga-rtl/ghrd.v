@@ -33,7 +33,7 @@
 
 `define ENABLE_HPS
 //`define ENABLE_CLK
-
+ 
 module ghrd(  
  
       ///////// ADC /////////
@@ -158,12 +158,13 @@ module ghrd(
 
 
  soc_system u0 (
-		//Clock&Reset
+		//Clock&Reset 
 	  .clk_clk                               (FPGA_CLK1_50 ),                               //                            clk.clk
 	  .reset_reset_n                         (hps_fpga_reset_n ),                         //                          reset.reset_n
-	  .i2c_avalon_bridge_scl					  (GPIO_1[0]),
-	  .i2c_avalon_bridge_sda					  (GPIO_1[1]),
-	  .i2c_avalon_bridge_gpio					  (GPIO_1[4:2]),
+	  .i2c_avalon_bridge_0_scl					  (GPIO_1[0]),
+	  .i2c_avalon_bridge_0_sda					  (GPIO_1[1]),
+	  .i2c_avalon_bridge_0_gpio					  (GPIO_1[4:2]),
+	  .i2c_avalon_bridge_0_led					  (LED[7:1]),
 	  //HPS ddr3
 	  .memory_mem_a                          ( HPS_DDR3_ADDR),                       //                memory.mem_a
 	  .memory_mem_ba                         ( HPS_DDR3_BA),                         //                .mem_ba

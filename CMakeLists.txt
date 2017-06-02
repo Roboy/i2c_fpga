@@ -36,7 +36,7 @@ SET(SOURCE
         src/main.cpp
         src/i2c.cpp
         src/am4096.cpp
-        src/tlv493d.cpp include/i2c_fpga/tlv493d.h)
+        src/tlv493d.cpp)
 
 include(findncurses_arm)
 
