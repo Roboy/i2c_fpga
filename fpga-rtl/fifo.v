@@ -56,16 +56,16 @@ module fifo (
 	output	  empty;
 	output	  full;
 	output	[31:0]  q;
-	output	[3:0]  usedw;
+	output	[7:0]  usedw;
 
 	wire  sub_wire0;
 	wire  sub_wire1;
 	wire [31:0] sub_wire2;
-	wire [3:0] sub_wire3;
+	wire [7:0] sub_wire3;
 	wire  empty = sub_wire0;
 	wire  full = sub_wire1;
 	wire [31:0] q = sub_wire2[31:0];
-	wire [3:0] usedw = sub_wire3[3:0];
+	wire [7:0] usedw = sub_wire3[7:0];
 
 	scfifo	scfifo_component (
 				.clock (clock),
@@ -82,13 +82,13 @@ module fifo (
 				.almost_full (),
 				.eccstatus ());
 	defparam
-		scfifo_component.add_ram_output_register = "ON",
+		scfifo_component.add_ram_output_register = "OFF",
 		scfifo_component.intended_device_family = "Cyclone V",
-		scfifo_component.lpm_numwords = 16,
+		scfifo_component.lpm_numwords = 256,
 		scfifo_component.lpm_showahead = "ON",
 		scfifo_component.lpm_type = "scfifo",
 		scfifo_component.lpm_width = 32,
-		scfifo_component.lpm_widthu = 4,
+		scfifo_component.lpm_widthu = 8,
 		scfifo_component.overflow_checking = "ON",
 		scfifo_component.underflow_checking = "ON",
 		scfifo_component.use_eab = "ON";
@@ -105,7 +105,7 @@ endmodule
 // Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
 // Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
 // Retrieval info: PRIVATE: Clock NUMERIC "0"
-// Retrieval info: PRIVATE: Depth NUMERIC "16"
+// Retrieval info: PRIVATE: Depth NUMERIC "256"
 // Retrieval info: PRIVATE: Empty NUMERIC "1"
 // Retrieval info: PRIVATE: Full NUMERIC "1"
 // Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
@@ -113,7 +113,7 @@ endmodule
 // Retrieval info: PRIVATE: LegacyRREQ NUMERIC "0"
 // Retrieval info: PRIVATE: MAX_DEPTH_BY_9 NUMERIC "0"
 // Retrieval info: PRIVATE: OVERFLOW_CHECKING NUMERIC "0"
-// Retrieval info: PRIVATE: Optimize NUMERIC "1"
+// Retrieval info: PRIVATE: Optimize NUMERIC "2"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
 // Retrieval info: PRIVATE: UNDERFLOW_CHECKING NUMERIC "0"
@@ -132,13 +132,13 @@ endmodule
 // Retrieval info: PRIVATE: wsFull NUMERIC "1"
 // Retrieval info: PRIVATE: wsUsedW NUMERIC "0"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
-// Retrieval info: CONSTANT: ADD_RAM_OUTPUT_REGISTER STRING "ON"
+// Retrieval info: CONSTANT: ADD_RAM_OUTPUT_REGISTER STRING "OFF"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
-// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "16"
+// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "256"
 // Retrieval info: CONSTANT: LPM_SHOWAHEAD STRING "ON"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "scfifo"
 // Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "32"
-// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "4"
+// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "8"
 // Retrieval info: CONSTANT: OVERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: UNDERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: USE_EAB STRING "ON"
@@ -149,7 +149,7 @@ endmodule
 // Retrieval info: USED_PORT: q 0 0 32 0 OUTPUT NODEFVAL "q[31..0]"
 // Retrieval info: USED_PORT: rdreq 0 0 0 0 INPUT NODEFVAL "rdreq"
 // Retrieval info: USED_PORT: sclr 0 0 0 0 INPUT NODEFVAL "sclr"
-// Retrieval info: USED_PORT: usedw 0 0 4 0 OUTPUT NODEFVAL "usedw[3..0]"
+// Retrieval info: USED_PORT: usedw 0 0 8 0 OUTPUT NODEFVAL "usedw[7..0]"
 // Retrieval info: USED_PORT: wrreq 0 0 0 0 INPUT NODEFVAL "wrreq"
 // Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
 // Retrieval info: CONNECT: @data 0 0 32 0 data 0 0 32 0
@@ -159,11 +159,11 @@ endmodule
 // Retrieval info: CONNECT: empty 0 0 0 0 @empty 0 0 0 0
 // Retrieval info: CONNECT: full 0 0 0 0 @full 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 32 0 @q 0 0 32 0
-// Retrieval info: CONNECT: usedw 0 0 4 0 @usedw 0 0 4 0
+// Retrieval info: CONNECT: usedw 0 0 8 0 @usedw 0 0 8 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo.cmp FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL fifo_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL fifo_inst.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf

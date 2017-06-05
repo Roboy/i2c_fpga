@@ -29,8 +29,8 @@ reg rw;
 reg busy;
 reg ack_error;
 reg ena;
-reg [2:0] number_of_bytes;
-wire [2:0] byte_counter;
+reg [7:0] number_of_bytes;
+wire [7:0] byte_counter;
 reg busy_prev;
 reg [31:0] data_rd;
 reg [31:0] data_read_fifo;
@@ -41,8 +41,6 @@ reg read_only;
 
 assign gpio = gpio_set[2:0];
 reg [7:0] read_counter;
-
-assign LED[0] = fifo_empty;
 
 assign readdata = 
 	((address == 0))? addr :
@@ -98,17 +96,22 @@ reg read_fifo;
 reg write_fifo;
 reg fifo_write_ack;
 reg fifo_read_ack;
-reg fifo_empty;
+wire fifo_empty;
+wire fifo_full;
 reg [7:0] usedw;
+
+assign LED[0] = fifo_empty;
+assign LED[1] = fifo_full;
 
 fifo fifo(
 	.clock(clock),
-	.data(data_read_fifo),
+	.data(data_rd),
 	.rdreq(fifo_read_ack),
 	.sclr(reset),
 	.wrreq(fifo_write_ack),
-	.q(data_rd),
+	.q(data_read_fifo),
 	.empty(fifo_empty),
+	.full(fifo_full),
 	.usedw(usedw)
 );
 

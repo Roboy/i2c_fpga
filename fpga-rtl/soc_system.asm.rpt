@@ -1,5 +1,5 @@
 Assembler report for soc_system
-Sat Jun  3 01:27:44 2017
+Mon Jun  5 17:27:26 2017
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -39,7 +39,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Sat Jun  3 01:27:44 2017 ;
+; Assembler Status      ; Successful - Mon Jun  5 17:27:26 2017 ;
 ; Revision Name         ; soc_system                            ;
 ; Top-level Entity Name ; ghrd                                  ;
 ; Family                ; Cyclone V                             ;
@@ -105,8 +105,8 @@ agreement for further details.
 +----------------+-------------------------+
 ; Option         ; Setting                 ;
 +----------------+-------------------------+
-; JTAG usercode  ; 0x01FE9BFD              ;
-; Checksum       ; 0x01FE9BFD              ;
+; JTAG usercode  ; 0x0206E77F              ;
+; Checksum       ; 0x0206E77F              ;
 +----------------+-------------------------+
 
 
@@ -116,14 +116,14 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Jun  3 01:27:35 2017
+    Info: Processing started: Mon Jun  5 17:27:17 2017
 Info: Command: quartus_asm --read_settings_files=on --write_settings_files=off soc_system -c soc_system
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115030): Assembler is generating device programming files
 Info (11878): Hard Processor Subsystem configuration has not changed and a Preloader software update is not required
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 1048 megabytes
-    Info: Processing ended: Sat Jun  3 01:27:44 2017
+    Info: Peak virtual memory: 1049 megabytes
+    Info: Processing ended: Mon Jun  5 17:27:26 2017
     Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:09
 

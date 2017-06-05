@@ -70,7 +70,7 @@ ARCHITECTURE logic OF i2c_master IS
   SIGNAL data_rx       : STD_LOGIC_VECTOR(7 DOWNTO 0);   --data received from slave
   SIGNAL bit_cnt       : INTEGER RANGE 0 TO 7 := 7;      --tracks bit number in transaction
   SIGNAL stretch       : STD_LOGIC := '0';               --identifies if slave is stretching scl
-  SIGNAL counter       : INTEGER RANGE 0 TO 7 := 0;      --tracks bit number in transaction
+  SIGNAL counter       : INTEGER RANGE 0 TO 255 := 0;      --tracks bit number in transaction
   SIGNAL fifo_write    : STD_LOGIC;
 BEGIN
 
@@ -190,9 +190,9 @@ BEGIN
 							when 0 => data_rd(31 downto 24) <= data_rx;
 							when others => NULL;
 					  end case;
-					  IF ((counter mod 4)=3) THEN
+--					  IF ((counter mod 4)=3) THEN
 							fifo_write <= '1';
-					  END IF;
+--					  END IF;
 				  ELSE
 					  case counter is 					--output received data (MSB first)
 							when 4 => data_rd(7 downto 0) <= data_rx;            
@@ -201,9 +201,9 @@ BEGIN
 							when 1 => data_rd(31 downto 24) <= data_rx;
 							when others => NULL;
 					  end case;
-					  IF ((counter mod 4)=0) THEN
+--					  IF ((counter mod 4)=0) THEN
 							fifo_write <= '1';
-					  END IF;
+--					  END IF;
 				  END IF;
    			  state <= mstr_ack;             --go to master acknowledge
 				  counter <= counter+1; 			--increase byte counter
@@ -283,10 +283,8 @@ BEGIN
 	IF(fifo_write = '1') THEN
 		fifo_write <= '0';
 	END IF;
-	 
+	 fifo_write_ack <= fifo_write;
   END PROCESS;  
-
-  fifo_write_ack <= fifo_write;
   
   --set sda output
   WITH state SELECT

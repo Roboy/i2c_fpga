@@ -29,6 +29,7 @@ public:
 	// registers: only read
 	const uint8_t BUSY = 4;
 	const uint8_t ACK_ERROR = 5;
+    const uint8_t FIFO_SIZE = 6;
 
 	// operations
 	const uint8_t WRITE = 0;
