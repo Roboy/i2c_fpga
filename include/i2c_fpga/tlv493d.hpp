@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define bitRead(byte,n) ((bool)((byte&(2^n))>>n))
+#define bitRead(byte,pos) ((byte) & (1<<(pos)))
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
   (byte & 0x80 ? '1' : '0'), \
@@ -20,13 +20,14 @@ using namespace std;
 class TLV493D{
 public:
     TLV493D(void *i2c_base, vector<uint8_t> &deviceAddress, vector<int> &devicePin);
-    bool initTLV(uint8_t deviceaddress, int devicepin);
+    bool initTLV(uint8_t &deviceaddress, int devicepin);
     float convertToMilliTesla(uint8_t data);
     void readTLV_B_MSB(int deviceaddress, vector<uint8_t> &data);
-    void readAllRegisters(int deviceaddress, vector<uint8_t> &reg);
+    void readAllRegisters(int deviceaddress, vector<uint8_t> &reg, bool print=true);
 private:
     ros::NodeHandlePtr nh;
     boost::shared_ptr<ros::AsyncSpinner> spinner;
+    uint32_t gpioreg;
 public:
     boost::shared_ptr<I2C> i2c;
     void *i2c_base;

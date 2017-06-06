@@ -163,7 +163,7 @@ module ghrd(
 	  .reset_reset_n                         (hps_fpga_reset_n ),                         //                          reset.reset_n
 	  .i2c_avalon_bridge_0_scl					  (GPIO_1[0]),
 	  .i2c_avalon_bridge_0_sda					  (GPIO_1[1]),
-	  .i2c_avalon_bridge_0_gpio					  (GPIO_1[4:2]),
+	  .i2c_avalon_bridge_0_gpio				  (GPIO_1[4:2]),
 	  .i2c_avalon_bridge_0_led					  (LED[7:1]),
 	  //HPS ddr3
 	  .memory_mem_a                          ( HPS_DDR3_ADDR),                       //                memory.mem_a

@@ -15,8 +15,8 @@
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
 // Look in the device's user manual for allowed addresses! (Table 6)
-vector<uint8_t> deviceaddress = {0b1011110};//31, 0b1011110, 0b0001111, 0b0001011
-vector<int> devicepin = {255};//,1,2
+vector<uint8_t> deviceaddress = {0b1001010, 0b1001110};//
+vector<int> devicepin = {0,1};
 
 int main(int argc, char *argv[]) {
 
@@ -70,30 +70,24 @@ int main(int argc, char *argv[]) {
 //    // Read data out and convert it
 
 
-
+    ROS_INFO("deviceaddress0:\t" BYTE_TO_BINARY_PATTERN,BYTE_TO_BINARY(deviceaddress[0]));
+    ROS_INFO("deviceaddress1:\t" BYTE_TO_BINARY_PATTERN,BYTE_TO_BINARY(deviceaddress[1]));
 
     while(ros::ok()){
         usleep(1000000);
         vector<uint8_t> data;
         tlv493D.readTLV_B_MSB(deviceaddress[0], data);
-        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[0]));
-        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[1]));
-        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[2]));
-//        uint8_t data[3];
-//        uint8_t data2[3];
-//        uint8_t data3[3];
-//        tlv493D.readTLV_B_MSB(deviceaddress[0], data);
-//        tlv493D.readTLV_B_MSB(deviceaddress[1], data2);
-//        tlv493D.readTLV_B_MSB(deviceaddress[2], data3);
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[0]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[1]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data[2]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data2[0]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data2[1]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data2[2]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data3[0]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data3[1]));
-//        ROS_INFO("%f", tlv493D.convertToMilliTesla(data3[2]));
+        tlv493D.readTLV_B_MSB(deviceaddress[1], data);
+        tlv493D.readTLV_B_MSB(deviceaddress[2], data);
+        ROS_INFO("1  %f", tlv493D.convertToMilliTesla(data[0]));
+        ROS_INFO("1  %f", tlv493D.convertToMilliTesla(data[1]));
+        ROS_INFO("1  %f", tlv493D.convertToMilliTesla(data[2]));
+        ROS_INFO("2  %f", tlv493D.convertToMilliTesla(data[3]));
+        ROS_INFO("2  %f", tlv493D.convertToMilliTesla(data[4]));
+        ROS_INFO("2  %f", tlv493D.convertToMilliTesla(data[5]));
+        ROS_INFO("3  %f", tlv493D.convertToMilliTesla(data[6]));
+        ROS_INFO("3  %f", tlv493D.convertToMilliTesla(data[7]));
+        ROS_INFO("3  %f", tlv493D.convertToMilliTesla(data[8]));
     }
 
 //	vector<int> deviceIDs = {0,1,2,3};
