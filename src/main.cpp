@@ -74,20 +74,16 @@ int main(int argc, char *argv[]) {
     ROS_INFO("deviceaddress1:\t" BYTE_TO_BINARY_PATTERN,BYTE_TO_BINARY(deviceaddress[1]));
 
     while(ros::ok()){
-        usleep(1000000);
+        usleep(10000);
         vector<uint8_t> data;
         tlv493D.readTLV_B_MSB(deviceaddress[0], data);
         tlv493D.readTLV_B_MSB(deviceaddress[1], data);
-        tlv493D.readTLV_B_MSB(deviceaddress[2], data);
-        ROS_INFO("1  %f", tlv493D.convertToMilliTesla(data[0]));
-        ROS_INFO("1  %f", tlv493D.convertToMilliTesla(data[1]));
-        ROS_INFO("1  %f", tlv493D.convertToMilliTesla(data[2]));
-        ROS_INFO("2  %f", tlv493D.convertToMilliTesla(data[3]));
-        ROS_INFO("2  %f", tlv493D.convertToMilliTesla(data[4]));
-        ROS_INFO("2  %f", tlv493D.convertToMilliTesla(data[5]));
-        ROS_INFO("3  %f", tlv493D.convertToMilliTesla(data[6]));
-        ROS_INFO("3  %f", tlv493D.convertToMilliTesla(data[7]));
-        ROS_INFO("3  %f", tlv493D.convertToMilliTesla(data[8]));
+        ROS_INFO("sensor 0:\n%f \t%f \t%f", tlv493D.convertToMilliTesla(data[0]),
+                 tlv493D.convertToMilliTesla(data[1]),
+                 tlv493D.convertToMilliTesla(data[2]));
+        ROS_INFO("sensor 1:\n%f \t%f \t%f", tlv493D.convertToMilliTesla(data[3]),
+                 tlv493D.convertToMilliTesla(data[4]),
+                 tlv493D.convertToMilliTesla(data[5]));
     }
 
 //	vector<int> deviceIDs = {0,1,2,3};
