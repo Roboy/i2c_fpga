@@ -52,10 +52,10 @@ void I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint3
 
     printf("fifo size: %d\n", IORD(h2p_lw_i2c_addr, FIFO_SIZE));
 
-//    // read the fifo biatch
-//    for(uint i=0;i<(number_of_bytes%4)+1;i++){
-//        data.push_back(IORD(h2p_lw_i2c_addr, DATA));
-//    }
+    // read the fifo biatch
+    for(uint i=0;i<number_of_bytes%4;i++){
+        data.push_back(IORD(h2p_lw_i2c_addr, DATA));
+    }
 }
 
 

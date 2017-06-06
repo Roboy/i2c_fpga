@@ -53,6 +53,7 @@ assign readdata =
 	32'hDEAD_BEEF;
 	
 always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
+	reg ena_prev;
 	if (reset == 1) begin 
 		data_wd <= 0;
 		ena <= 0;
@@ -61,6 +62,7 @@ always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
 		read_only <= 0;
 		number_of_bytes<= 0;
 	end else begin
+		ena_prev <= ena;
 		// if we are writing via avalon bus and waitrequest is deasserted, write the respective register
 		if(write && ~waitrequest) begin
 			case(address)
@@ -81,8 +83,17 @@ always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
 			ena <= 0;
 		end
 		
-		if(fifo_read_ack==1)
+		if(fifo_read_ack==1) begin
 			fifo_read_ack <= 0;
+		end
+		
+		if(ena_prev == 0 && ena == 1 && ~fifo_empty) begin
+			fifo_clear <= 1;
+		end
+		
+		if(fifo_clear == 1) begin
+			fifo_clear <= 0;
+		end
 	end 
 end
 
@@ -91,11 +102,12 @@ assign sda = gpio_set[3]?0:1'bz;
 // if i2c node is busy we have to wait
 assign waitrequest = ena|fifo_read_ack ;
 
-reg [7:0] fifo_write;
+wire fifo_write;
 reg read_fifo;
 reg write_fifo;
-reg fifo_write_ack;
+wire fifo_write_ack;
 reg fifo_read_ack;
+reg fifo_clear;
 wire fifo_empty;
 wire fifo_full;
 reg [7:0] usedw;
@@ -107,12 +119,18 @@ fifo fifo(
 	.clock(clock),
 	.data(data_rd),
 	.rdreq(fifo_read_ack),
-	.sclr(reset),
-	.wrreq(fifo_write_ack),
+	.sclr(reset||fifo_clear),
+	.wrreq(fifo_write),
 	.q(data_read_fifo),
 	.empty(fifo_empty),
 	.full(fifo_full),
 	.usedw(usedw)
+);
+
+oneshot oneshot(
+	.clk(clock),
+   .edge_sig(fifo_write_ack),
+   .level_sig(fifo_write)
 );
 
 i2c_master i2c(

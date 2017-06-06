@@ -71,7 +71,6 @@ ARCHITECTURE logic OF i2c_master IS
   SIGNAL bit_cnt       : INTEGER RANGE 0 TO 7 := 7;      --tracks bit number in transaction
   SIGNAL stretch       : STD_LOGIC := '0';               --identifies if slave is stretching scl
   SIGNAL counter       : INTEGER RANGE 0 TO 255 := 0;      --tracks bit number in transaction
-  SIGNAL fifo_write    : STD_LOGIC;
 BEGIN
 
   --generate the timing for the bus clock (scl_clk) and the data clock (data_clk)
@@ -175,6 +174,7 @@ BEGIN
             END IF;
           WHEN rd =>                         --read byte of transaction
             busy <= '1';                     --resume busy if continuous mode
+				fifo_write_ack <= '0';					--reset fifo_write
             IF(bit_cnt = 0) THEN             --read byte receive finished
               IF( counter < number_of_bytes-1 AND addr_rw = addr & rw ) THEN  				--continuing with another read at same address
                 sda_int <= '0';              --acknowledge the byte has been received
@@ -190,9 +190,9 @@ BEGIN
 							when 0 => data_rd(31 downto 24) <= data_rx;
 							when others => NULL;
 					  end case;
---					  IF ((counter mod 4)=3) THEN
-							fifo_write <= '1';
---					  END IF;
+					  IF (((counter+1) mod 4)=0) THEN
+							fifo_write_ack <= '1';
+					  END IF;
 				  ELSE
 					  case counter is 					--output received data (MSB first)
 							when 4 => data_rd(7 downto 0) <= data_rx;            
@@ -201,9 +201,9 @@ BEGIN
 							when 1 => data_rd(31 downto 24) <= data_rx;
 							when others => NULL;
 					  end case;
---					  IF ((counter mod 4)=0) THEN
-							fifo_write <= '1';
---					  END IF;
+					  IF ((counter mod 4)=0) THEN
+							fifo_write_ack <= '1';
+					  END IF;
 				  END IF;
    			  state <= mstr_ack;             --go to master acknowledge
 				  counter <= counter+1; 			--increase byte counter
@@ -280,12 +280,8 @@ BEGIN
         END CASE;
       END IF;
     END IF;
-	IF(fifo_write = '1') THEN
-		fifo_write <= '0';
-	END IF;
-	 fifo_write_ack <= fifo_write;
   END PROCESS;  
-  
+    
   --set sda output
   WITH state SELECT
     sda_ena_n <= data_clk_prev WHEN start,     --generate start condition
