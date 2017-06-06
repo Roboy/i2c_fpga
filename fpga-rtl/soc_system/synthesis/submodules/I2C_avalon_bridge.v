@@ -36,7 +36,7 @@ reg [31:0] data_rd;
 reg [31:0] data_read_fifo;
 reg [31:0] data_wd;
 
-reg [3:0] gpio_set;
+reg [4:0] gpio_set;
 reg read_only;
 
 assign gpio = gpio_set[2:0];
@@ -71,7 +71,7 @@ always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
 				2: rw <= writedata; 
 				3: ena <= writedata;
 				4: number_of_bytes <= writedata;
-				5: gpio_set <= writedata[3:0];
+				5: gpio_set <= writedata[4:0];
 				6: read_only <= (writedata!=0); 
 			endcase 
 		end
@@ -97,7 +97,9 @@ always @(posedge clock, posedge reset) begin: I2C_CONTROL_LOGIC
 	end 
 end
 
-assign sda = gpio_set[3]?0:1'bz;
+assign sda = (gpio_set[3]==1)?0: // if gpio_set[3] is set, we pull sda low
+				 (gpio_set[4]==1)?1: // if gpio_set[4] is set, we pull sda high
+				 1'bz;					// else we leave it the fuck alone
 
 // if i2c node is busy we have to wait
 assign waitrequest = ena|fifo_read_ack ;

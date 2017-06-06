@@ -6,6 +6,7 @@ I2C::I2C(void * baseAddr):h2p_lw_i2c_addr(baseAddr) {
 void I2C::write(uint8_t i2cAddr, uint32_t data, uint8_t number_of_bytes) {
 	// we need this small pause!
 	usleep(1);
+    IOWR(h2p_lw_i2c_addr, READ_ONLY, 0);
 	// Set slave address
 	IOWR(h2p_lw_i2c_addr, ADDR, i2cAddr);
 	// Set data to write
@@ -22,6 +23,7 @@ void I2C::write(uint8_t i2cAddr, uint32_t data, uint8_t number_of_bytes) {
 uint32_t I2C::read(uint8_t i2cAddr, uint8_t reg, uint8_t number_of_bytes) {
 	// we need this small pause!
 	usleep(1);
+    IOWR(h2p_lw_i2c_addr, READ_ONLY, 0);
 	// Set slave address
 	IOWR(h2p_lw_i2c_addr, ADDR, i2cAddr);
 	// Set operation mode: read
@@ -38,8 +40,8 @@ uint32_t I2C::read(uint8_t i2cAddr, uint8_t reg, uint8_t number_of_bytes) {
 
 void I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint8_t> &data) {
     IOWR(h2p_lw_i2c_addr, ENA, 0);
-    IOWR(h2p_lw_i2c_addr, READ_ONLY, 1);        // Set this register to enable reading from the I2C bus without having to write
-                                        // the address of the register to read beforehand.
+    IOWR(h2p_lw_i2c_addr, READ_ONLY, 1); // Set this register to enable reading from the I2C bus without having to write
+                                         // the address of the register to read beforehand.
     // we need this small pause!
     usleep(1);
     // Set slave address
@@ -51,7 +53,7 @@ void I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint8
     // Start operation (enable = 1)
     IOWR(h2p_lw_i2c_addr, ENA, 1);
 
-    printf("fifo size: %d\n", IORD(h2p_lw_i2c_addr, FIFO_SIZE));
+//    printf("fifo size: %d\n", IORD(h2p_lw_i2c_addr, FIFO_SIZE));
 
     // read the fifo biatch
     uint32_t reg;

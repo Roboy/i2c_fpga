@@ -40,11 +40,11 @@ public:
     void read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint8_t> &data);
 };
 
-#define IORD(base,reg) (*(((volatile int32_t*)base)+reg))
-#define IOWR(base,reg,data) (*(((volatile int32_t*)base)+reg)=data)
-#define IORD_8DIRECT(base, offset) (*(((volatile int8_t*)base)+offset))
-#define IORD_16DIRECT(base, offset) (*(((volatile int16_t*)base)+(offset>>1)))
-#define IORD_32DIRECT(base, offset) (*(((volatile int32_t*)base)+(offset>>2)))
-#define IOWR_8DIRECT(base, offset, data) (*(((volatile int8_t*)base)+offset)=data)
-#define IOWR_16DIRECT(base, offset, data) (*(((volatile int16_t*)base)+(offset>>1))=data)
-#define IOWR_32DIRECT(base, offset, data) (*(((volatile int32_t*)base)+(offset>>2))=data)
+#define IORD(base,reg) (*(((volatile uint32_t*)base)+reg))
+#define IOWR(base,reg,data) (*(((volatile uint32_t*)base)+reg)=data)
+#define IORD_8DIRECT(base, offset) (*(((volatile uint8_t*)base)+offset))
+#define IORD_16DIRECT(base, offset) (*(((volatile uint16_t*)base)+(offset>>1)))
+#define IORD_32DIRECT(base, offset) (*(((volatile uint32_t*)base)+(offset>>2)))
+#define IOWR_8DIRECT(base, offset, data) (*(((volatile uint8_t*)base)+offset)=data)
+#define IOWR_16DIRECT(base, offset, data) (*(((volatile uint16_t*)base)+(offset>>1))=data)
+#define IOWR_32DIRECT(base, offset, data) (*(((volatile uint32_t*)base)+(offset>>2))=data)

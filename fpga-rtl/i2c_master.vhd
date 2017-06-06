@@ -131,7 +131,7 @@ BEGIN
 				  ELSE
 					addr_rw <= addr & rw;          --collect requested slave address and command
 				  END IF;
-              data_tx <= data_wr(7 downto 0) ;            --collect requested data to write
+              data_tx <= data_wr(31 downto 24) ;            --collect requested data to write (MSB first)
               state <= start;                --go to start bit
             ELSE                             --remain idle
               busy <= '0';                   --unflag busy
@@ -255,7 +255,7 @@ BEGIN
           WHEN stop =>                       --stop bit of transaction
             busy <= '0';                     --unflag busy
             state <= ready;                  --go to idle state
-				IF((number_of_bytes mod 4)>0) THEN
+				IF((number_of_bytes mod 4)>0) THEN --we need to write the rest of the bytes to the fifo
 					fifo_write_ack <= '1';
 				END IF;
 				counter <= number_of_bytes;
