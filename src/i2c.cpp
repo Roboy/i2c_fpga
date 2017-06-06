@@ -36,7 +36,8 @@ uint32_t I2C::read(uint8_t i2cAddr, uint8_t reg, uint8_t number_of_bytes) {
 	return IORD(h2p_lw_i2c_addr, DATA);
 }
 
-void I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint32_t> &data) {
+void I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint8_t> &data) {
+    IOWR(h2p_lw_i2c_addr, ENA, 0);
     IOWR(h2p_lw_i2c_addr, READ_ONLY, 1);        // Set this register to enable reading from the I2C bus without having to write
                                         // the address of the register to read beforehand.
     // we need this small pause!
@@ -45,7 +46,7 @@ void I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint3
     IOWR(h2p_lw_i2c_addr, ADDR, i2cAddr);
     // Set operation mode: read
     IOWR(h2p_lw_i2c_addr, RW, READ);
-    // Set the number of bytes to be read + 1 for the register to read from
+    // Set the number of bytes to be read
     IOWR(h2p_lw_i2c_addr, NUMBER_OF_BYTES, number_of_bytes);
     // Start operation (enable = 1)
     IOWR(h2p_lw_i2c_addr, ENA, 1);
@@ -53,8 +54,20 @@ void I2C::read_continuous(uint8_t i2cAddr, uint8_t number_of_bytes, vector<uint3
     printf("fifo size: %d\n", IORD(h2p_lw_i2c_addr, FIFO_SIZE));
 
     // read the fifo biatch
-    for(uint i=0;i<number_of_bytes%4;i++){
-        data.push_back(IORD(h2p_lw_i2c_addr, DATA));
+    uint32_t reg;
+    for(uint i=0;i<number_of_bytes/4;i++){
+            reg = IORD(h2p_lw_i2c_addr, DATA);
+            data.push_back((reg>>24)&0xff);
+            data.push_back((reg>>16)&0xff);
+            data.push_back((reg>>8)&0xff);
+            data.push_back((reg>>0)&0xff);
+    }
+    if((number_of_bytes%4)>0){
+        reg = IORD(h2p_lw_i2c_addr, DATA);
+        uint8_t rest_bytes = number_of_bytes%4;
+        for(uint i=0;i<rest_bytes;i++){
+            data.push_back((reg>>(3-i)*8)&0xff);
+        }
     }
 }
 

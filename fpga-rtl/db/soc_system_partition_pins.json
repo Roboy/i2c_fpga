@@ -16,6 +16,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "LED[3]",
+					"strict" : false
+				},
+				{
 					"name" : "GPIO_1[0]",
 					"strict" : false
 				},

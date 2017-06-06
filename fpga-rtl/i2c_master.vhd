@@ -183,25 +183,25 @@ BEGIN
               END IF;
               bit_cnt <= 7;                  --reset bit counter for "byte" states
 				  IF(read_only = '1') THEN
-					  case counter mod 4 is 					--output received data (MSB first)
+					  case (counter mod 4) is 					--output received data (MSB first)
 							when 3 => data_rd(7 downto 0) <= data_rx;            
 							when 2 => data_rd(15 downto 8) <= data_rx;
 							when 1 => data_rd(23 downto 16) <= data_rx;
 							when 0 => data_rd(31 downto 24) <= data_rx;
 							when others => NULL;
 					  end case;
-					  IF (((counter+1) mod 4)=0) THEN
+					  IF ((counter mod 4)=3) THEN
 							fifo_write_ack <= '1';
 					  END IF;
 				  ELSE
-					  case counter is 					--output received data (MSB first)
-							when 4 => data_rd(7 downto 0) <= data_rx;            
-							when 3 => data_rd(15 downto 8) <= data_rx;
-							when 2 => data_rd(23 downto 16) <= data_rx;
-							when 1 => data_rd(31 downto 24) <= data_rx;
+					  case ((counter-1) mod 4) is 					--output received data (MSB first)
+							when 3 => data_rd(7 downto 0) <= data_rx;            
+							when 2 => data_rd(15 downto 8) <= data_rx;
+							when 1 => data_rd(23 downto 16) <= data_rx;
+							when 0 => data_rd(31 downto 24) <= data_rx;
 							when others => NULL;
 					  end case;
-					  IF ((counter mod 4)=0) THEN
+					  IF (((counter-1) mod 4)=3) THEN
 							fifo_write_ack <= '1';
 					  END IF;
 				  END IF;
@@ -232,6 +232,7 @@ BEGIN
 				  state <= stop;                 --go to stop bit
 				END IF;
           WHEN mstr_ack =>                   --master acknowledge bit after a read
+				fifo_write_ack <= '0';
 				IF( counter < number_of_bytes ) THEN               --continue transaction
 				  busy <= '0';                   --continue is accepted and data received is available on bus
 				  addr_rw <= addr & rw;          --collect requested slave address and command
@@ -254,6 +255,9 @@ BEGIN
           WHEN stop =>                       --stop bit of transaction
             busy <= '0';                     --unflag busy
             state <= ready;                  --go to idle state
+				IF((number_of_bytes mod 4)>0) THEN
+					fifo_write_ack <= '1';
+				END IF;
 				counter <= number_of_bytes;
         END CASE;    
       ELSIF(data_clk = '0' AND data_clk_prev = '1') THEN  --data clock falling edge

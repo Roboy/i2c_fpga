@@ -14,19 +14,19 @@ TLV493D::TLV493D(void *i2c_base, vector<uint8_t> &deviceAddress, vector<int> &de
     spinner->start();
 
 //    ROS_INFO("Checking device addresses by bruteforcing the entire range. Fuck you angry pixies!");
-//    uint8_t sensor = 1;
-//    for(uint i=0;i<deviceAddress.size();i++) {
-//        ROS_INFO("checking sensor %d", i);
-//        IOWR(i2c_base, i2c->GPIO_CONTROL, sensor);
+////    uint8_t sensor = 1;
+////    for(uint i=0;i<deviceAddress.size();i++) {
+////        ROS_INFO("checking sensor %d", i);
+////        IOWR(i2c_base, i2c->GPIO_CONTROL, sensor);
 //        for (uint8_t tmpaddr = 1; tmpaddr <= 127; tmpaddr++) {
 //            uint32_t data;
 //            i2c->read(tmpaddr, 1, 1);
 //            if (!IORD(i2c_base, i2c->ACK_ERROR)) {
-//                ROS_INFO("sensor active at: %x", tmpaddr);
+//                ROS_INFO("sensor active at: %d", tmpaddr);
 //            }
 //        }
-//        sensor <<= 1;
-//    }
+////        sensor <<= 1;
+////    }
 
 //    ROS_INFO("Let's give each one its own device address");
 //    for(int i=0; i<deviceAddress.size();i++){
@@ -85,7 +85,7 @@ bool TLV493D::initTLV(uint8_t deviceaddress, int devicepin) {
         defaultaddr = 0b1011110;
     }
 
-    vector<uint32_t> data;
+    vector<uint8_t> data;
     i2c->read_continuous(defaultaddr, 10, data); // Beginning first read (for backup)
     for(uint32_t val:data){
         ROS_INFO("%x", val);

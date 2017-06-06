@@ -15,7 +15,7 @@
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
 // Look in the device's user manual for allowed addresses! (Table 6)
-vector<uint8_t> deviceaddress = {0b1011110};//, 0b0001111, 0b0001011
+vector<uint8_t> deviceaddress = {31};//, 0b1011110, 0b0001111, 0b0001011
 vector<int> devicepin = {0};//,1,2
 
 int main(int argc, char *argv[]) {
@@ -52,11 +52,12 @@ int main(int argc, char *argv[]) {
 
     TLV493D tlv493D(h2p_lw_i2c_addr, deviceaddress, devicepin);
 
+    IOWR(tlv493D.i2c_base, tlv493D.i2c->GPIO_CONTROL, 0);
+
     IOWR(tlv493D.i2c_base, tlv493D.i2c->GPIO_CONTROL, 1);
-    vector<uint32_t> data;
+    vector<uint8_t> data;
     tlv493D.i2c->read_continuous(deviceaddress[0], 10, data); // Beginning first read (for backup)
-    ROS_INFO("%d",IORD(tlv493D.i2c_base, 6));
-    for(uint32_t val:data){
+    for(uint8_t val:data){
         ROS_INFO("%x", val);
     }
 

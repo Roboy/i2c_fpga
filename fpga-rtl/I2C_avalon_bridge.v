@@ -114,6 +114,7 @@ reg [7:0] usedw;
 
 assign LED[0] = fifo_empty;
 assign LED[1] = fifo_full;
+assign LED[2] = ena;
 
 fifo fifo(
 	.clock(clock),
