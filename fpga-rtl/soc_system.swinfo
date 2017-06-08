@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SopcSystem>
  <!-- An entire SOPC Builder system -->
- <!-- 2017.06.02.21:59:44 -->
+ <!-- 2017.06.08.22:29:09 -->
  <name>soc_system</name>
  <version>1.0</version>
  <sopcVersion>1.0</sopcVersion>
@@ -18,6 +18,18 @@
    <frequency>0</frequency>
   </clockConnection>
   <path>I2C_avalon_bridge_0</path>
+ </module>
+ <module>
+  <name>I2C_avalon_bridge_1</name>
+  <version>1.0</version>
+  <className>I2C_avalon_bridge</className>
+  <clockConnection>
+   <moduleName>I2C_avalon_bridge_1</moduleName>
+   <localSlaveName>clock_sink</localSlaveName>
+   <systemConnectionName>I2C_avalon_bridge_1.clock_sink</systemConnectionName>
+   <frequency>0</frequency>
+  </clockConnection>
+  <path>I2C_avalon_bridge_1</path>
  </module>
  <module>
   <name>clk_0</name>
@@ -269,29 +281,33 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
-    <moduleName>sysid_qsys</moduleName>
-    <slaveDesc>sysid_qsys</slaveDesc>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
     <slave>
-     <name>control_slave</name>
+     <name>avalon_slave</name>
      <version>17.0</version>
      <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isNonVolatileStorage</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isPrintableDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
-     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>65536</baseAddress>
-    <basePhysicalAddress>65536</basePhysicalAddress>
-    <span>8</span>
+    <baseAddress>0</baseAddress>
+    <basePhysicalAddress>0</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -328,9 +344,44 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>65568</baseAddress>
-    <basePhysicalAddress>65568</basePhysicalAddress>
+    <baseAddress>32</baseAddress>
+    <basePhysicalAddress>32</basePhysicalAddress>
     <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
+    <moduleName>sysid_qsys</moduleName>
+    <slaveDesc>sysid_qsys</slaveDesc>
+    <slave>
+     <name>control_slave</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>false</value>
+     </assignment>
+     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>65536</baseAddress>
+    <basePhysicalAddress>65536</basePhysicalAddress>
+    <span>8</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -543,29 +594,33 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
-    <moduleName>sysid_qsys</moduleName>
-    <slaveDesc>sysid_qsys</slaveDesc>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
     <slave>
-     <name>control_slave</name>
+     <name>avalon_slave</name>
      <version>17.0</version>
      <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isNonVolatileStorage</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isPrintableDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
-     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>65536</baseAddress>
-    <basePhysicalAddress>65536</basePhysicalAddress>
-    <span>8</span>
+    <baseAddress>0</baseAddress>
+    <basePhysicalAddress>0</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -602,9 +657,44 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>65568</baseAddress>
-    <basePhysicalAddress>65568</basePhysicalAddress>
+    <baseAddress>32</baseAddress>
+    <basePhysicalAddress>32</basePhysicalAddress>
     <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
+    <moduleName>sysid_qsys</moduleName>
+    <slaveDesc>sysid_qsys</slaveDesc>
+    <slave>
+     <name>control_slave</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>false</value>
+     </assignment>
+     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>65536</baseAddress>
+    <basePhysicalAddress>65536</basePhysicalAddress>
+    <span>8</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -1878,29 +1968,33 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
-    <moduleName>sysid_qsys</moduleName>
-    <slaveDesc>sysid_qsys</slaveDesc>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
     <slave>
-     <name>control_slave</name>
+     <name>avalon_slave</name>
      <version>17.0</version>
      <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isNonVolatileStorage</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isPrintableDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
-     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280352768</baseAddress>
-    <basePhysicalAddress>4280352768</basePhysicalAddress>
-    <span>8</span>
+    <baseAddress>4280287232</baseAddress>
+    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -1937,9 +2031,44 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280352800</baseAddress>
-    <basePhysicalAddress>4280352800</basePhysicalAddress>
+    <baseAddress>4280287264</baseAddress>
+    <basePhysicalAddress>4280287264</basePhysicalAddress>
     <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
+    <moduleName>sysid_qsys</moduleName>
+    <slaveDesc>sysid_qsys</slaveDesc>
+    <slave>
+     <name>control_slave</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>false</value>
+     </assignment>
+     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>4280352768</baseAddress>
+    <basePhysicalAddress>4280352768</basePhysicalAddress>
+    <span>8</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -3180,29 +3309,33 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
-    <moduleName>sysid_qsys</moduleName>
-    <slaveDesc>sysid_qsys</slaveDesc>
+    <moduleName>I2C_avalon_bridge_1</moduleName>
+    <slaveDesc>I2C_avalon_bridge_1</slaveDesc>
     <slave>
-     <name>control_slave</name>
+     <name>avalon_slave</name>
      <version>17.0</version>
      <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
       <name>embeddedsw.configuration.isMemoryDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isNonVolatileStorage</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
      <assignment>
       <name>embeddedsw.configuration.isPrintableDevice</name>
-      <value>false</value>
+      <value>0</value>
      </assignment>
-     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <systemSlaveName>I2C_avalon_bridge_1.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280352768</baseAddress>
-    <basePhysicalAddress>4280352768</basePhysicalAddress>
-    <span>8</span>
+    <baseAddress>4280287232</baseAddress>
+    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -3239,9 +3372,44 @@
      <systemSlaveName>I2C_avalon_bridge_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280352800</baseAddress>
-    <basePhysicalAddress>4280352800</basePhysicalAddress>
+    <baseAddress>4280287264</baseAddress>
+    <basePhysicalAddress>4280287264</basePhysicalAddress>
     <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
+    <moduleName>sysid_qsys</moduleName>
+    <slaveDesc>sysid_qsys</slaveDesc>
+    <slave>
+     <name>control_slave</name>
+     <version>17.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>false</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>false</value>
+     </assignment>
+     <systemSlaveName>sysid_qsys.control_slave</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>4280352768</baseAddress>
+    <basePhysicalAddress>4280352768</basePhysicalAddress>
+    <span>8</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
     <isDataAccessible>false</isDataAccessible>
@@ -7290,7 +7458,7 @@
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1496432231</value>
+   <value>1496951977</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -7310,7 +7478,7 @@
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1496432231</value>
+   <value>1496951977</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>

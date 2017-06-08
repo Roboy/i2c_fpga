@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "i2c_fpga/i2c.hpp"
+#include <roboy_communication_middleware/MagneticSensor.h>
 #include <vector>
 #include <ros/ros.h>
 
@@ -24,9 +25,12 @@ public:
     float convertToMilliTesla(uint8_t data);
     void readTLV_B_MSB(int deviceaddress, vector<uint8_t> &data);
     void readAllRegisters(int deviceaddress, vector<uint8_t> &reg, bool print=true);
+    void readAndPublish();
 private:
     ros::NodeHandlePtr nh;
     boost::shared_ptr<ros::AsyncSpinner> spinner;
+    ros::Publisher magneticSensor_pub;
+    vector<uint8_t> deviceAddress;
     uint32_t gpioreg;
 public:
     boost::shared_ptr<I2C> i2c;

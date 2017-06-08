@@ -15,14 +15,16 @@
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
 // Look in the device's user manual for allowed addresses! (Table 6)
-vector<uint8_t> deviceaddress = {0b1001010, 0b1001110};//
-vector<int> devicepin = {0,1};
+vector<uint8_t> deviceaddress0 = {0b1001010, 0b1001110};//
+vector<uint8_t> deviceaddress1 = {0b1001010};//
+vector<int> devicepin0 = {0,1};
+vector<int> devicepin1 = {0};
 
 int main(int argc, char *argv[]) {
 
 	void *virtual_base;
 	int fd;
-	void *h2p_lw_i2c_addr;
+	void *h2p_lw_i2c_addr0, *h2p_lw_i2c_addr1;
 
 	// map the address space for the LED registers into user space so we can interact with them.
 	// we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
@@ -39,8 +41,9 @@ int main(int argc, char *argv[]) {
 		close( fd );
 		return( 1 );
 	}
-	
-	h2p_lw_i2c_addr = virtual_base + ( (unsigned long) ( ALT_LWFPGASLVS_OFST + I2C_AVALON_BRIDGE_0_BASE ) & (unsigned long) ( HW_REGS_MASK ) );
+
+    h2p_lw_i2c_addr0 = virtual_base + ( (unsigned long) ( ALT_LWFPGASLVS_OFST + I2C_AVALON_BRIDGE_0_BASE ) & (unsigned long) ( HW_REGS_MASK ) );
+    h2p_lw_i2c_addr1 = virtual_base + ( (unsigned long) ( ALT_LWFPGASLVS_OFST + I2C_AVALON_BRIDGE_1_BASE ) & (unsigned long) ( HW_REGS_MASK ) );
 
 	if (!ros::isInitialized()) {
 		int argc = 0;
@@ -50,40 +53,35 @@ int main(int argc, char *argv[]) {
 
     // Initialize I2C bus and setup sensors
 
-    TLV493D tlv493D(h2p_lw_i2c_addr, deviceaddress, devicepin);
+    TLV493D tlv493D0(h2p_lw_i2c_addr0, deviceaddress0, devicepin0);
+    TLV493D tlv493D1(h2p_lw_i2c_addr1, deviceaddress1, devicepin1);
 
+    ros::NodeHandlePtr nh(new ros::NodeHandle);
+    ros::AsyncSpinner spinner(1);
+    ros::Publisher magneticSensor_pub = nh->advertise<roboy_communication_middleware::MagneticSensor>("/roboy/middleware/MagneticSensor",1);
+    spinner.start();
 
-//    vector<uint8_t> data;
-//    tlv493D.i2c->read_continuous(deviceaddress[0], 10, data); // Beginning first read (for backup)
-//    for(uint8_t val:data){
-//        ROS_INFO("%x", val);
-//    }
-
-//    printf("Ok, initialized I2C bus\n");
-//    printf("---------Activating sensors--------\n");
-//    usleep(500);                                       // Letting things settle
-//    factory_settings[0] = initTLV(deviceaddress[0], initcfg, devicepin[0]);    // Write device address and initial config
-//    factory_settings[1] = initTLV(deviceaddress[1], initcfg, devicepin[1]);
-//    factory_settings[2] = initTLV(deviceaddress[2], initcfg, devicepin[2]);
-//    printf("---------Done configuring---------\n");
-//
-//    // Read data out and convert it
-
-
-    ROS_INFO("deviceaddress0:\t" BYTE_TO_BINARY_PATTERN,BYTE_TO_BINARY(deviceaddress[0]));
-    ROS_INFO("deviceaddress1:\t" BYTE_TO_BINARY_PATTERN,BYTE_TO_BINARY(deviceaddress[1]));
-
+    ros::Rate rate(30);
     while(ros::ok()){
-        usleep(10000);
+        roboy_communication_middleware::MagneticSensor msg;
         vector<uint8_t> data;
-        tlv493D.readTLV_B_MSB(deviceaddress[0], data);
-        tlv493D.readTLV_B_MSB(deviceaddress[1], data);
-        ROS_INFO("sensor 0:\n%f \t%f \t%f", tlv493D.convertToMilliTesla(data[0]),
-                 tlv493D.convertToMilliTesla(data[1]),
-                 tlv493D.convertToMilliTesla(data[2]));
-        ROS_INFO("sensor 1:\n%f \t%f \t%f", tlv493D.convertToMilliTesla(data[3]),
-                 tlv493D.convertToMilliTesla(data[4]),
-                 tlv493D.convertToMilliTesla(data[5]));
+        uint i=0;
+        for(uint8_t device:deviceaddress0){
+            tlv493D0.readTLV_B_MSB(device,data);
+            msg.x.push_back(tlv493D0.convertToMilliTesla(data[i*3+0]));
+            msg.y.push_back(tlv493D0.convertToMilliTesla(data[i*3+1]));
+            msg.z.push_back(tlv493D0.convertToMilliTesla(data[i*3+2]));
+            i++;
+        }
+        for(uint8_t device:deviceaddress1){
+            tlv493D1.readTLV_B_MSB(device,data);
+            msg.x.push_back(tlv493D1.convertToMilliTesla(data[i*3+0]));
+            msg.y.push_back(tlv493D1.convertToMilliTesla(data[i*3+1]));
+            msg.z.push_back(tlv493D1.convertToMilliTesla(data[i*3+2]));
+            i++;
+        }
+        magneticSensor_pub.publish(msg);
+        rate.sleep();
     }
 
 //	vector<int> deviceIDs = {0,1,2,3};

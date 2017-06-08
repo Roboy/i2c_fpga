@@ -57,6 +57,7 @@
 			i2c_avalon_bridge_0_scl               : inout std_logic                     := 'X';             -- scl
 			i2c_avalon_bridge_0_sda               : inout std_logic                     := 'X';             -- sda
 			i2c_avalon_bridge_0_gpio              : out   std_logic_vector(2 downto 0);                     -- gpio
+			i2c_avalon_bridge_0_led               : out   std_logic_vector(6 downto 0);                     -- led
 			memory_mem_a                          : out   std_logic_vector(14 downto 0);                    -- mem_a
 			memory_mem_ba                         : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			memory_mem_ck                         : out   std_logic;                                        -- mem_ck
@@ -73,7 +74,11 @@
 			memory_mem_odt                        : out   std_logic;                                        -- mem_odt
 			memory_mem_dm                         : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin                      : in    std_logic                     := 'X';             -- oct_rzqin
-			reset_reset_n                         : in    std_logic                     := 'X'              -- reset_n
+			reset_reset_n                         : in    std_logic                     := 'X';             -- reset_n
+			i2c_avalon_bridge_1_scl               : inout std_logic                     := 'X';             -- scl
+			i2c_avalon_bridge_1_sda               : inout std_logic                     := 'X';             -- sda
+			i2c_avalon_bridge_1_gpio              : out   std_logic_vector(2 downto 0);                     -- gpio
+			i2c_avalon_bridge_1_led               : out   std_logic_vector(6 downto 0)                      -- led
 		);
 	end component soc_system;
 
@@ -136,6 +141,7 @@
 			i2c_avalon_bridge_0_scl               => CONNECTED_TO_i2c_avalon_bridge_0_scl,               --       i2c_avalon_bridge_0.scl
 			i2c_avalon_bridge_0_sda               => CONNECTED_TO_i2c_avalon_bridge_0_sda,               --                          .sda
 			i2c_avalon_bridge_0_gpio              => CONNECTED_TO_i2c_avalon_bridge_0_gpio,              --                          .gpio
+			i2c_avalon_bridge_0_led               => CONNECTED_TO_i2c_avalon_bridge_0_led,               --                          .led
 			memory_mem_a                          => CONNECTED_TO_memory_mem_a,                          --                    memory.mem_a
 			memory_mem_ba                         => CONNECTED_TO_memory_mem_ba,                         --                          .mem_ba
 			memory_mem_ck                         => CONNECTED_TO_memory_mem_ck,                         --                          .mem_ck
@@ -152,6 +158,10 @@
 			memory_mem_odt                        => CONNECTED_TO_memory_mem_odt,                        --                          .mem_odt
 			memory_mem_dm                         => CONNECTED_TO_memory_mem_dm,                         --                          .mem_dm
 			memory_oct_rzqin                      => CONNECTED_TO_memory_oct_rzqin,                      --                          .oct_rzqin
-			reset_reset_n                         => CONNECTED_TO_reset_reset_n                          --                     reset.reset_n
+			reset_reset_n                         => CONNECTED_TO_reset_reset_n,                         --                     reset.reset_n
+			i2c_avalon_bridge_1_scl               => CONNECTED_TO_i2c_avalon_bridge_1_scl,               --       i2c_avalon_bridge_1.scl
+			i2c_avalon_bridge_1_sda               => CONNECTED_TO_i2c_avalon_bridge_1_sda,               --                          .sda
+			i2c_avalon_bridge_1_gpio              => CONNECTED_TO_i2c_avalon_bridge_1_gpio,              --                          .gpio
+			i2c_avalon_bridge_1_led               => CONNECTED_TO_i2c_avalon_bridge_1_led                --                          .led
 		);
 

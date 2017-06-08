@@ -1,6 +1,6 @@
 #include "i2c_fpga/tlv493d.hpp"
 
-TLV493D::TLV493D(void *i2c_base, vector<uint8_t> &deviceAddress, vector<int> &devicePin):i2c_base(i2c_base){
+TLV493D::TLV493D(void *i2c_base, vector<uint8_t> &deviceAddress, vector<int> &devicePin):i2c_base(i2c_base),deviceAddress(deviceAddress){
     i2c = boost::shared_ptr<I2C>(new I2C(i2c_base));
 
     if (!ros::isInitialized()) {
@@ -12,6 +12,8 @@ TLV493D::TLV493D(void *i2c_base, vector<uint8_t> &deviceAddress, vector<int> &de
     nh = ros::NodeHandlePtr(new ros::NodeHandle);
     spinner = boost::shared_ptr<ros::AsyncSpinner>(new ros::AsyncSpinner(1));
     spinner->start();
+
+    magneticSensor_pub = nh->advertise<roboy_communication_middleware::MagneticSensor>("/roboy/middleware/MagneticSensor",1, this);
 
     IOWR(i2c_base, i2c->GPIO_CONTROL, 0);
     gpioreg = IORD(i2c_base,i2c->GPIO_CONTROL); // Read previous pin status so as to not overwrite any values
@@ -150,4 +152,16 @@ void TLV493D::readAllRegisters(int deviceaddress, vector<uint8_t> &reg, bool pri
             printf("%d\t: " BYTE_TO_BINARY_PATTERN"\n", i++, BYTE_TO_BINARY(val));
         }
     }
+}
+
+void TLV493D::readAndPublish(){
+    roboy_communication_middleware::MagneticSensor msg;
+    for(uint8_t device:deviceAddress){
+        vector<uint8_t> data;
+        readTLV_B_MSB(device,data);
+        msg.x.push_back(convertToMilliTesla(data[0]));
+        msg.y.push_back(convertToMilliTesla(data[1]));
+        msg.z.push_back(convertToMilliTesla(data[2]));
+    }
+    magneticSensor_pub.publish(msg);
 }

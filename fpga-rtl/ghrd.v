@@ -165,6 +165,9 @@ module ghrd(
 	  .i2c_avalon_bridge_0_sda					  (GPIO_1[1]),
 	  .i2c_avalon_bridge_0_gpio				  (GPIO_1[4:2]),
 	  .i2c_avalon_bridge_0_led					  (LED[7:1]),
+	  .i2c_avalon_bridge_1_scl					  (GPIO_0[0]),
+	  .i2c_avalon_bridge_1_sda					  (GPIO_0[1]),
+	  .i2c_avalon_bridge_1_gpio				  (GPIO_0[4:2]),
 	  //HPS ddr3
 	  .memory_mem_a                          ( HPS_DDR3_ADDR),                       //                memory.mem_a
 	  .memory_mem_ba                         ( HPS_DDR3_BA),                         //                .mem_ba

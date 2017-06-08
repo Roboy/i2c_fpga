@@ -57,6 +57,7 @@ module soc_system (
 	i2c_avalon_bridge_0_scl,
 	i2c_avalon_bridge_0_sda,
 	i2c_avalon_bridge_0_gpio,
+	i2c_avalon_bridge_0_led,
 	memory_mem_a,
 	memory_mem_ba,
 	memory_mem_ck,
@@ -73,7 +74,11 @@ module soc_system (
 	memory_mem_odt,
 	memory_mem_dm,
 	memory_oct_rzqin,
-	reset_reset_n);	
+	reset_reset_n,
+	i2c_avalon_bridge_1_scl,
+	i2c_avalon_bridge_1_sda,
+	i2c_avalon_bridge_1_gpio,
+	i2c_avalon_bridge_1_led);	
 
 	input		clk_clk;
 	input		hps_0_f2h_cold_reset_req_reset_n;
@@ -132,6 +137,7 @@ module soc_system (
 	inout		i2c_avalon_bridge_0_scl;
 	inout		i2c_avalon_bridge_0_sda;
 	output	[2:0]	i2c_avalon_bridge_0_gpio;
+	output	[6:0]	i2c_avalon_bridge_0_led;
 	output	[14:0]	memory_mem_a;
 	output	[2:0]	memory_mem_ba;
 	output		memory_mem_ck;
@@ -149,4 +155,8 @@ module soc_system (
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
 	input		reset_reset_n;
+	inout		i2c_avalon_bridge_1_scl;
+	inout		i2c_avalon_bridge_1_sda;
+	output	[2:0]	i2c_avalon_bridge_1_gpio;
+	output	[6:0]	i2c_avalon_bridge_1_led;
 endmodule

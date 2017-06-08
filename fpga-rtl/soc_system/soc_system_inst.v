@@ -56,6 +56,7 @@
 		.i2c_avalon_bridge_0_scl               (<connected-to-i2c_avalon_bridge_0_scl>),               //       i2c_avalon_bridge_0.scl
 		.i2c_avalon_bridge_0_sda               (<connected-to-i2c_avalon_bridge_0_sda>),               //                          .sda
 		.i2c_avalon_bridge_0_gpio              (<connected-to-i2c_avalon_bridge_0_gpio>),              //                          .gpio
+		.i2c_avalon_bridge_0_led               (<connected-to-i2c_avalon_bridge_0_led>),               //                          .led
 		.memory_mem_a                          (<connected-to-memory_mem_a>),                          //                    memory.mem_a
 		.memory_mem_ba                         (<connected-to-memory_mem_ba>),                         //                          .mem_ba
 		.memory_mem_ck                         (<connected-to-memory_mem_ck>),                         //                          .mem_ck
@@ -72,6 +73,10 @@
 		.memory_mem_odt                        (<connected-to-memory_mem_odt>),                        //                          .mem_odt
 		.memory_mem_dm                         (<connected-to-memory_mem_dm>),                         //                          .mem_dm
 		.memory_oct_rzqin                      (<connected-to-memory_oct_rzqin>),                      //                          .oct_rzqin
-		.reset_reset_n                         (<connected-to-reset_reset_n>)                          //                     reset.reset_n
+		.reset_reset_n                         (<connected-to-reset_reset_n>),                         //                     reset.reset_n
+		.i2c_avalon_bridge_1_scl               (<connected-to-i2c_avalon_bridge_1_scl>),               //       i2c_avalon_bridge_1.scl
+		.i2c_avalon_bridge_1_sda               (<connected-to-i2c_avalon_bridge_1_sda>),               //                          .sda
+		.i2c_avalon_bridge_1_gpio              (<connected-to-i2c_avalon_bridge_1_gpio>),              //                          .gpio
+		.i2c_avalon_bridge_1_led               (<connected-to-i2c_avalon_bridge_1_led>)                //                          .led
 	);
 

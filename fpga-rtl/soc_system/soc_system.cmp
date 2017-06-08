@@ -58,6 +58,10 @@
 			i2c_avalon_bridge_0_sda               : inout std_logic                     := 'X';             -- sda
 			i2c_avalon_bridge_0_gpio              : out   std_logic_vector(2 downto 0);                     -- gpio
 			i2c_avalon_bridge_0_led               : out   std_logic_vector(6 downto 0);                     -- led
+			i2c_avalon_bridge_1_scl               : inout std_logic                     := 'X';             -- scl
+			i2c_avalon_bridge_1_sda               : inout std_logic                     := 'X';             -- sda
+			i2c_avalon_bridge_1_gpio              : out   std_logic_vector(2 downto 0);                     -- gpio
+			i2c_avalon_bridge_1_led               : out   std_logic_vector(6 downto 0);                     -- led
 			memory_mem_a                          : out   std_logic_vector(14 downto 0);                    -- mem_a
 			memory_mem_ba                         : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			memory_mem_ck                         : out   std_logic;                                        -- mem_ck
